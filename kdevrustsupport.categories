@@ -1,0 +1,5 @@
+# KDebugSettings data file
+# Format:
+# logname<space>description
+
+kdevelop.languages.rust KDevelop plugin: Rust language support
