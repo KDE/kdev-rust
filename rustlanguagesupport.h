@@ -2,27 +2,36 @@
 #define KDEVRUSTLANGUAGESUPPORT_H
 
 #include <interfaces/iplugin.h>
+#include <interfaces/idocument.h>
 #include <interfaces/ilanguagecheck.h>
 #include <interfaces/ilanguagecheckprovider.h>
 #include <language/interfaces/ilanguagesupport.h>
 
 #include <QVariant>
 
+#include "rusthighlighting.h"
+
 namespace Rust
 {
 
-class LanguageSupport : public KDevelop::IPlugin
+class LanguageSupport
+        : public KDevelop::IPlugin
         , public KDevelop::ILanguageSupport
 {
     Q_OBJECT
     Q_INTERFACES( KDevelop::ILanguageSupport )
 
 public:
-    // KPluginFactory-based plugin wants constructor with this signature
     LanguageSupport( QObject* parent, const QVariantList& args = QVariantList() );
+    ~LanguageSupport();
+
+
 
     QString name() const override;
-    KDevelop::ParseJob *createParseJob(const KDevelop::IndexedString &url) override;
+    KDevelop::ParseJob* createParseJob(const KDevelop::IndexedString &url) override;
+
+private:
+    Highlighting* m_highlighting;
 };
 
 }

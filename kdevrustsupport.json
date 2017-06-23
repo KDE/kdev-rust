@@ -20,6 +20,6 @@
     ],
     "X-KDevelop-Mode": "NoGUI",
     "X-KDevelop-SupportedMimeTypes": [
-        "text/x-rust"
+        "text/rust"
     ]
 }

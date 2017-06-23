@@ -35,7 +35,6 @@ endif()
 
 add_definitions( -DTRANSLATION_DOMAIN=\"kdevrust\" )
 
-# Disabled for now
 enable_testing()
 
 #add_subdirectory(parser)
@@ -50,10 +49,14 @@ include_directories(
 #    ${CMAKE_CURRENT_BINARY_DIR}/parser
 )
 
+link_directories(${AST_REDUX_LIBDIR})
+
 set(kdevrustlanguagesupport_PART_SRCS
     rustlanguagesupport.cpp
-#    rustparsejob.cpp
-#    rusthighlighting.cpp
+    rustparsejob.cpp
+    rusthighlighting.cpp
+    duchain/builder.cpp
+    duchain/astredux.h
 #    rustdebug.cpp
 )
 
@@ -75,6 +78,7 @@ target_link_libraries(kdevrustlanguagesupport
  #   kdevrustparser
  #   kdevrustduchain
  #   kdevrustcompletion
+    ast_redux
 )
 
 install(FILES kdevrustsupport.categories DESTINATION ${KDE_INSTALL_CONFDIR})
