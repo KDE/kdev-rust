@@ -1,11 +1,19 @@
 #ifndef BUILDER_H
 #define BUILDER_H
 
+#include <language/duchain/topducontext.h>
+
 #include "astredux.h"
+#include "parsesession.h"
+
+namespace Rust
+{
 
 namespace Builder
 {
-    void buildDUChain(RSCrate *crate);
+    KDevelop::ReferencedTopDUContext buildDUChain(const ParseSession &parseSession, RSIndex *index);
+}
+
 }
 
 #endif // BUILDER_H

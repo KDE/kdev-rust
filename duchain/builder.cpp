@@ -1,26 +1,42 @@
 #include "builder.h"
-#include "astredux.h"
+
+#include <language/duchain/duchainlock.h>
+#include <language/duchain/topducontext.h>
+#include <language/duchain/duchain.h>
+#include <language/duchain/problem.h>
+#include <language/backgroundparser/urlparselock.h>
 
 #include "rustdebug.h"
+#include "astredux.h"
+#include "duchain/parsesession.h"
+#include "duchain/rustducontext.h"
 
-RSVisitResult visit_callback(RSNode *node, RSNode *parent, void *data);
+namespace Rust
+{
+
+RSVisitResult visitCallback(RSNode *node, RSNode *parent, void *data);
 
 class DUChainBuilder
 {
 public:
-    DUChainBuilder(RSCrate *crate);
+    DUChainBuilder(RSIndex *index, RSCrate *crate, bool update);
     ~DUChainBuilder();
 
-    RSVisitResult visit(RSNode *node, RSNode *parent);
+    template <RSNodeKind Kind>
+    RSVisitResult buildDeclaration(RSNode *node, RSNode *parent);
 
 private:
+    RSIndex *index;
+    RSCrate *crate;
     RSNode *crateNode;
 };
 
-DUChainBuilder::DUChainBuilder(RSCrate *crate)
-    : crateNode(node_from_crate(crate))
+DUChainBuilder::DUChainBuilder(RSIndex *index, RSCrate *crate, bool update)
+    : index(index),
+      crate(crate),
+      crateNode(node_from_crate(crate))
 {
-    visit_children(crateNode, visit_callback, this);
+    visit_children(crateNode, visitCallback, this);
 }
 
 DUChainBuilder::~DUChainBuilder()
@@ -28,19 +44,62 @@ DUChainBuilder::~DUChainBuilder()
     destroy_node(crateNode);
 }
 
-RSVisitResult DUChainBuilder::visit(RSNode *node, RSNode *parent)
+
+template<RSNodeKind Kind>
+RSVisitResult DUChainBuilder::buildDeclaration(RSNode *node, RSNode *parent)
 {
-    qCDebug(KDEV_RUST) << "got node";
+    RustAllocatedString name(node_get_spelling_name(node));
+    RSRange range = node_get_spelling_range(node, index);
+    RSRange extent = node_get_extent(node, index);
+
+    qCDebug(KDEV_RUST) << "DECLARATION:" << name << "; spelling range: ("
+                       << range.start.line << ":" << range.start.column << "-"
+                       << range.end.line << ":" << range.end.column << "); extent: ("
+                       << extent.start.line << ":" << extent.start.column << "-"
+                       << extent.end.line << ":" << extent.end.column << ")";
+
     return Recurse;
 }
 
-RSVisitResult visit_callback(RSNode *node, RSNode *parent, void *data)
+
+RSVisitResult visitCallback(RSNode *node, RSNode *parent, void *data)
 {
     DUChainBuilder *builder = static_cast<DUChainBuilder *>(data);
-    return builder->visit(node, parent);
+    RSNodeKind kind = node_get_kind(node);
+
+    switch (kind) {
+    case StructDecl:
+        return builder->buildDeclaration<StructDecl>(node, parent);
+    case FunctionDecl:
+        return builder->buildDeclaration<FunctionDecl>(node, parent);
+    default:
+        return Recurse;
+    }
 }
 
-void Builder::buildDUChain(RSCrate *crate)
+ReferencedTopDUContext Builder::buildDUChain(const ParseSession &parseSession, RSIndex *index)
 {
-    DUChainBuilder builder(crate);
+    using namespace KDevelop;
+
+    bool update = false;
+    UrlParseLock urlLock(parseSession.document());
+    ReferencedTopDUContext context;
+    {
+        DUChainWriteLocker lock;
+        context = DUChain::self()->chainForDocument(parseSession.document());
+        if (!context) {
+            ReferencedTopDUContext context = new Rust::RustTopDUContext(parseSession.document(), RangeInRevision(0, 0, INT_MAX, INT_MAX));
+            DUChain::self()->addDocumentChain(context);
+        } else {
+            update = true;
+        }
+    }
+
+    DUChainBuilder builder(index, parseSession.crate(), update);
+
+    DUChain::self()->emitUpdateReady(parseSession.document(), context);
+
+    return context;
+}
+
 }

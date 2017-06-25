@@ -7,8 +7,12 @@
 #include <language/duchain/topducontext.h>
 #include <language/duchain/problem.h>
 
+#include "duchain/parsesession.h"
+
 namespace Rust
 {
+
+class LanguageSupport;
 
 class ParseJob : public KDevelop::ParseJob
 {
@@ -19,6 +23,10 @@ public:
 
 protected:
     void run(ThreadWeaver::JobPointer self, ThreadWeaver::Thread *thread) override;
+
+private:
+    LanguageSupport *rust() const;
+    ParseSessionData::Ptr findParseSessionData(const KDevelop::IndexedString &url);
 };
 
 }

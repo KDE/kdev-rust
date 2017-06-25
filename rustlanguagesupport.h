@@ -10,6 +10,7 @@
 #include <QVariant>
 
 #include "rusthighlighting.h"
+#include "duchain/astredux.h"
 
 namespace Rust
 {
@@ -22,16 +23,18 @@ class LanguageSupport
     Q_INTERFACES( KDevelop::ILanguageSupport )
 
 public:
-    LanguageSupport( QObject* parent, const QVariantList& args = QVariantList() );
+    LanguageSupport(QObject* parent, const QVariantList& args = QVariantList());
     ~LanguageSupport();
-
-
 
     QString name() const override;
     KDevelop::ParseJob* createParseJob(const KDevelop::IndexedString &url) override;
 
+    RSIndex *index();
+
 private:
     Highlighting* m_highlighting;
+
+    RSIndex *m_index;
 };
 
 }
