@@ -273,6 +273,8 @@ RSVisitResult visitCallback(RSNode *node, RSNode *parent, void *data)
         return builder->buildDeclaration<FunctionDecl>(node, parent);
     case ImplDecl:
         return builder->buildDeclaration<ImplDecl>(node, parent);
+    case TraitDecl:
+        return builder->buildDeclaration<TraitDecl>(node, parent);
     case TypeAliasDecl:
         return builder->buildDeclaration<TypeAliasDecl>(node, parent);
     case EnumVariantDecl:
@@ -384,7 +386,11 @@ void DUChainBuilder::setType(Declaration *decl, AbstractType *type)
 template<RSNodeKind Kind, EnableIf<NodeTraits::isTypeDeclaration(Kind)>>
 void DUChainBuilder::setDeclData(ClassDeclaration *decl)
 {
-//    decl->setClassType(ClassDeclarationData::Struct);
+    if (Kind == StructDecl || Kind == ImplDecl) {
+        decl->setClassType(ClassDeclarationData::Struct);
+    } else if (Kind == TraitDecl) {
+        decl->setClassType(ClassDeclarationData::Trait);
+    }
 }
 
 template<RSNodeKind Kind>
