@@ -9,10 +9,15 @@ class HighlightingInstance : public CodeHighlightingInstance
 {
 public:
     HighlightingInstance(const Highlighting *highlighting);
+    virtual ~HighlightingInstance();
 };
 
 HighlightingInstance::HighlightingInstance(const Highlighting *highlighting)
     : CodeHighlightingInstance(highlighting)
+{
+}
+
+HighlightingInstance::~HighlightingInstance()
 {
 }
 
