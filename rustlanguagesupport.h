@@ -29,6 +29,8 @@ public:
     QString name() const override;
     KDevelop::ParseJob* createParseJob(const KDevelop::IndexedString &url) override;
 
+    virtual KDevelop::ICodeHighlighting *codeHighlighting() const;
+
     RSIndex *index();
 
 private:

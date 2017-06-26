@@ -53,6 +53,11 @@ KDevelop::ParseJob* LanguageSupport::createParseJob(const KDevelop::IndexedStrin
     return new ParseJob(url, this);
 }
 
+ICodeHighlighting *LanguageSupport::codeHighlighting() const
+{
+    return m_highlighting;
+}
+
 RSIndex *LanguageSupport::index()
 {
     return m_index;
