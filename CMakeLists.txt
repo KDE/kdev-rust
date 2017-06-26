@@ -59,6 +59,7 @@ set(kdevrustlanguagesupport_PART_SRCS
     duchain/rustducontext.cpp
     duchain/parsesession.cpp
     duchain/astredux.h
+    duchain/nodetraits.h
 #    rustdebug.cpp
 )
 
