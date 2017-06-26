@@ -279,6 +279,8 @@ RSVisitResult visitCallback(RSNode *node, RSNode *parent, void *data)
         return builder->buildDeclaration<TypeAliasDecl>(node, parent);
     case EnumVariantDecl:
         return builder->buildDeclaration<EnumVariantDecl>(node, parent);
+    case FieldDecl:
+        return builder->buildDeclaration<FieldDecl>(node, parent);
     case VarDecl:
 //        return builder->buildDeclaration<VarDecl>(node, parent);
     default:
