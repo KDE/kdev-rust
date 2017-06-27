@@ -15,6 +15,7 @@
 #include <language/duchain/types/enumeratortype.h>
 #include <language/duchain/types/functiontype.h>
 #include <language/duchain/types/identifiedtype.h>
+#include <language/duchain/duchaindumper.h>
 #include <language/duchain/duchain.h>
 #include <language/duchain/problem.h>
 #include <language/duchain/parsingenvironment.h>
@@ -288,32 +289,6 @@ RSVisitResult visitCallback(RSNode *node, RSNode *parent, void *data)
     }
 }
 
-void dumpDuContext(DUContext *context, int indent) {
-    QString indentStr = QString(indent, ' ');
-    QString typeName;
-    switch (context->type()) {
-    case DUContext::Global:    typeName = "Global";    break;
-    case DUContext::Namespace: typeName = "Namespace"; break;
-    case DUContext::Class:     typeName = "Class";     break;
-    case DUContext::Function:  typeName = "Function";  break;
-    case DUContext::Template:  typeName = "Template";  break;
-    case DUContext::Enum:      typeName = "Enum";      break;
-    case DUContext::Helper:    typeName = "Helper";    break;
-    case DUContext::Other:     typeName = "Other";     break;
-    }
-
-    qCDebug(KDEV_RUST) << indentStr.toStdString().c_str() << "DU CONTEXT:" << context->localScopeIdentifier() << "TYPE:" << typeName;
-    qCDebug(KDEV_RUST) << indentStr.toStdString().c_str() << "DECLARATIONS:";
-    for (auto decl : context->localDeclarations()) {
-        qCDebug(KDEV_RUST) << indentStr.toStdString().c_str() << "-" << decl->identifier();
-    }
-
-    qCDebug(KDEV_RUST) << indentStr.toStdString().c_str() << "CHILDREN:";
-    for (auto child : context->childContexts()) {
-        dumpDuContext(child, indent + 2);
-    }
-}
-
 ReferencedTopDUContext Builder::buildDUChain(const ParseSession &parseSession, RSIndex *index)
 {
     using namespace KDevelop;
@@ -340,7 +315,7 @@ ReferencedTopDUContext Builder::buildDUChain(const ParseSession &parseSession, R
 
     DUChainBuilder builder(context, index, parseSession.crate(), update);
 
-//    dumpDuContext(context, 0);
+    DUChainDumper d; d.dump(context);
 
     DUChain::self()->emitUpdateReady(parseSession.document(), context);
 
