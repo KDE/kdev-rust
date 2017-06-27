@@ -282,7 +282,7 @@ RSVisitResult visitCallback(RSNode *node, RSNode *parent, void *data)
     case FieldDecl:
         return builder->buildDeclaration<FieldDecl>(node, parent);
     case VarDecl:
-//        return builder->buildDeclaration<VarDecl>(node, parent);
+        return builder->buildDeclaration<VarDecl>(node, parent);
     default:
         return Recurse;
     }
