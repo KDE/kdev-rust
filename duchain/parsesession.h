@@ -23,8 +23,11 @@ public:
 private:
     friend class ParseSession;
 
+    void parse();
+
     KDevelop::IndexedString m_document;
     QByteArray m_contents;
+    RSIndex *m_index;
     RSCrate *m_crate;
 };
 
@@ -33,6 +36,8 @@ class ParseSession
 public:
     explicit ParseSession(const ParseSessionData::Ptr &data);
     ~ParseSession();
+
+    void parse();
 
     ParseSessionData::Ptr data() const;
     void setData(const ParseSessionData::Ptr data);

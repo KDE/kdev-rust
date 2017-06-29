@@ -11,10 +11,9 @@
 
 #include "duchain/parsesession.h"
 #include "duchain/astredux.h"
-#include "duchain/builder.h"
+#include "duchain/declarationbuilder.h"
 
 #include "rustlanguagesupport.h"
-
 #include "rustdebug.h"
 
 using namespace KDevelop;
@@ -74,7 +73,25 @@ void ParseJob::run(ThreadWeaver::JobPointer self, ThreadWeaver::Thread *thread)
         return;
     }
 
-    auto context = Builder::buildDUChain(session, rust()->index());
+    ReferencedTopDUContext toUpdate = nullptr;
+    {
+        DUChainReadLocker lock;
+        toUpdate = DUChainUtils::standardContextForUrl(document().toUrl());
+    }
+    if (toUpdate) {
+        translateDUChainToRevision(toUpdate);
+        toUpdate->setRange(RangeInRevision(0, 0, INT_MAX, INT_MAX));
+    }
+
+    session.parse();
+
+    RustNode crateNode = RustNode(node_from_crate(session.crate()));
+
+    DeclarationBuilder builder;
+    builder.setIndex(rust()->index());
+    auto context = builder.build(document(), &crateNode, toUpdate);
+
+//    destroy_node(crateNode.node); // FIXME raii this
 
     setDuChain(context);
 

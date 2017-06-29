@@ -8,9 +8,9 @@ ParseSessionData::ParseSessionData(const KDevelop::IndexedString &document,
                                    RSIndex *index)
     : m_document(document),
       m_contents(contents),
+      m_index(index),
       m_crate(nullptr)
 {
-    m_crate = parse_crate(m_document.c_str(), m_contents, index);
 }
 
 ParseSessionData::~ParseSessionData()
@@ -20,6 +20,11 @@ ParseSessionData::~ParseSessionData()
     }
 }
 
+void ParseSessionData::parse()
+{
+    m_crate = parse_crate(m_document.c_str(), m_contents, m_index);
+}
+
 ParseSession::ParseSession(const ParseSessionData::Ptr &data)
     : d(data)
 {
@@ -27,6 +32,11 @@ ParseSession::ParseSession(const ParseSessionData::Ptr &data)
 
 ParseSession::~ParseSession()
 {
+}
+
+void ParseSession::parse()
+{
+    d->parse();
 }
 
 ParseSessionData::Ptr ParseSession::data() const
