@@ -85,13 +85,12 @@ void ParseJob::run(ThreadWeaver::JobPointer self, ThreadWeaver::Thread *thread)
 
     session.parse();
 
-    RustNode crateNode = RustNode(node_from_crate(session.crate()));
+    RustOwnedNode crateNode = RustOwnedNode(node_from_crate(session.crate()));
+    RustNode node(crateNode);
 
     DeclarationBuilder builder;
     builder.setIndex(rust()->index());
-    auto context = builder.build(document(), &crateNode, toUpdate);
-
-//    destroy_node(crateNode.node); // FIXME raii this
+    auto context = builder.build(document(), &node, toUpdate);
 
     setDuChain(context);
 

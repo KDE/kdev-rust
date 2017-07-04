@@ -15,7 +15,7 @@ using namespace KDevelop;
 
 RSVisitResult DeclarationBuilder::visitNode(RustNode *node, RustNode *parent)
 {
-    RSNodeKind kind = node_get_kind(node->node);
+    RSNodeKind kind = node_get_kind(node->data());
 
     switch (kind) {
     case StructDecl:
@@ -48,8 +48,8 @@ RSVisitResult DeclarationBuilder::buildDeclaration(RustNode *node, RustNode *par
     constexpr bool hasContext = NodeTraits::hasContext(Kind);
 
     RustPath name(node);
-    RSRange range = node_get_spelling_range(node->node, index());
-    RSRange extent = node_get_extent(node->node, index());
+    RSRange range = node_get_spelling_range(node->data(), index());
+    RSRange extent = node_get_extent(node->data(), index());
 
     qCDebug(KDEV_RUST) << "DECLARATION:" << name.value << "; spelling range: ("
                        << range.start.line << ":" << range.start.column << "-"

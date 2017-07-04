@@ -66,31 +66,4 @@ void visit_children(RSNode *node, CallbackFn callback, void *data);
 
 }
 
-class RustAllocatedString {
-public:
-    RustAllocatedString(const char *str)
-        : str(str)
-    {
-    }
-
-    ~RustAllocatedString()
-    {
-        destroy_string(str);
-    }
-
-    const char *data()
-    {
-        return str;
-    }
-
-    operator const char *()
-    {
-        return data();
-    }
-
-private:
-    const char *str;
-};
-
-
 #endif // ASTREDUX_H

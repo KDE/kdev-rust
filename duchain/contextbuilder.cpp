@@ -24,7 +24,7 @@ RSIndex *ContextBuilder::index()
 
 RangeInRevision ContextBuilder::editorFindSpellingRange(RustNode *node, const Identifier& identifier)
 {
-    RSRange range = node_get_spelling_range(node->node, index());
+    RSRange range = node_get_spelling_range(node->data(), index());
     KTextEditor::Range incorrectRange = KTextEditor::Range(range.start.line - 1, range.start.column, INT_MAX, INT_MAX);
     IDocument *document = ICore::self()->documentController()
             ->documentForUrl(topContext()->url().toUrl());
@@ -41,7 +41,7 @@ RangeInRevision ContextBuilder::editorFindSpellingRange(RustNode *node, const Id
 
 void ContextBuilder::visitChildren(RustNode *node)
 {
-    visit_children(node->node, visitCallback, this);
+    visit_children(node->data(), visitCallback, this);
 }
 
 void ContextBuilder::startVisiting(RustNode *node)
@@ -51,18 +51,18 @@ void ContextBuilder::startVisiting(RustNode *node)
 
 void ContextBuilder::setContextOnNode(RustNode *node, KDevelop::DUContext *context)
 {
-    node->context = context;
+    node->setContext(context);
 }
 
 KDevelop::DUContext *ContextBuilder::contextFromNode(RustNode *node)
 {
-    return node->context;
+    return node->getContext();
 }
 
 KDevelop::RangeInRevision ContextBuilder::editorFindRange(RustNode *fromNode, RustNode *toNode)
 {
-    RSRange fromRange = node_get_extent(fromNode->node, m_index);
-    RSRange toRange = node_get_extent(toNode->node, m_index);
+    RSRange fromRange = node_get_extent(fromNode->data(), m_index);
+    RSRange toRange = node_get_extent(toNode->data(), m_index);
 
     return RangeInRevision(fromRange.start.line - 1, fromRange.start.column, toRange.end.line - 1, toRange.end.column);
 }
