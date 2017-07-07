@@ -31,12 +31,8 @@ public:
 
     virtual KDevelop::ICodeHighlighting *codeHighlighting() const;
 
-    RSIndex *index();
-
 private:
     Highlighting* m_highlighting;
-
-    RSIndex *m_index;
 };
 
 }

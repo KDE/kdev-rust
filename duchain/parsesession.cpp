@@ -4,11 +4,9 @@ namespace Rust
 {
 
 ParseSessionData::ParseSessionData(const KDevelop::IndexedString &document,
-                                   const QByteArray &contents,
-                                   RSIndex *index)
+                                   const QByteArray &contents)
     : m_document(document),
       m_contents(contents),
-      m_index(index),
       m_crate(nullptr)
 {
 }
@@ -22,7 +20,7 @@ ParseSessionData::~ParseSessionData()
 
 void ParseSessionData::parse()
 {
-    m_crate = parse_crate(m_document.c_str(), m_contents, m_index);
+    m_crate = parse_crate(m_document.c_str(), m_contents);
 }
 
 ParseSession::ParseSession(const ParseSessionData::Ptr &data)

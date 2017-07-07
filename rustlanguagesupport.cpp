@@ -28,7 +28,6 @@ LanguageSupport::LanguageSupport(QObject *parent, const QVariantList& args)
       m_highlighting(new Highlighting(this))
 {
     Q_UNUSED(args);
-    m_index = create_index();
 
     qCDebug(KDEV_RUST) << "Hello world, Rust plugin initialized is loaded!";
 }
@@ -37,8 +36,6 @@ LanguageSupport::~LanguageSupport()
 {
     parseLock()->lockForWrite();
     parseLock()->unlock();
-
-    destroy_index(m_index);
 
     delete m_highlighting;
 }
@@ -56,11 +53,6 @@ KDevelop::ParseJob* LanguageSupport::createParseJob(const KDevelop::IndexedStrin
 ICodeHighlighting *LanguageSupport::codeHighlighting() const
 {
     return m_highlighting;
-}
-
-RSIndex *LanguageSupport::index()
-{
-    return m_index;
 }
 
 }

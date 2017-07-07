@@ -48,8 +48,8 @@ RSVisitResult DeclarationBuilder::buildDeclaration(RustNode *node, RustNode *par
     constexpr bool hasContext = NodeTraits::hasContext(Kind);
 
     RustPath name(node);
-    RSRange range = node_get_spelling_range(node->data(), index());
-    RSRange extent = node_get_extent(node->data(), index());
+    RSRange range = node_get_spelling_range(node->data());
+    RSRange extent = node_get_extent(node->data());
 
     qCDebug(KDEV_RUST) << "DECLARATION:" << name.value << "; spelling range: ("
                        << range.start.line << ":" << range.start.column << "-"

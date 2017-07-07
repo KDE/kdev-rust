@@ -39,15 +39,11 @@ struct RSRange
 
 struct RSCrate;
 struct RSNode;
-struct RSIndex;
 
 typedef RSVisitResult (*CallbackFn)(RSNode *node, RSNode *parent, void *data);
 
 
-RSIndex *create_index();
-void destroy_index(RSIndex *);
-
-RSCrate *parse_crate(const char *name, const char *source, RSIndex *index);
+RSCrate *parse_crate(const char *name, const char *source);
 void destroy_crate(RSCrate *crate);
 
 RSNode *node_from_crate(RSCrate *crate);
@@ -57,8 +53,8 @@ RSCrate *node_get_crate(RSNode *node);
 RSNodeKind node_get_kind(RSNode *node);
 
 const char *node_get_spelling_name(RSNode *node);
-RSRange node_get_spelling_range(RSNode *node, RSIndex *index);
-RSRange node_get_extent(RSNode *node, RSIndex *index);
+RSRange node_get_spelling_range(RSNode *node);
+RSRange node_get_extent(RSNode *node);
 
 void destroy_string(const char *str);
 

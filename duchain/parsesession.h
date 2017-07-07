@@ -15,8 +15,7 @@ public:
     typedef QExplicitlySharedDataPointer<ParseSessionData> Ptr;
 
     ParseSessionData(const KDevelop::IndexedString &document,
-                     const QByteArray &contents,
-                     RSIndex *index);
+                     const QByteArray &contents);
 
     virtual ~ParseSessionData();
 
@@ -27,7 +26,6 @@ private:
 
     KDevelop::IndexedString m_document;
     QByteArray m_contents;
-    RSIndex *m_index;
     RSCrate *m_crate;
 };
 
@@ -42,7 +40,6 @@ public:
     ParseSessionData::Ptr data() const;
     void setData(const ParseSessionData::Ptr data);
 
-    RSIndex *index() const;
     KDevelop::IndexedString document() const;
     RSCrate *crate() const;
 

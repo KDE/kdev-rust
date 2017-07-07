@@ -16,10 +16,7 @@ public:
     ContextBuilder() = default;
     virtual ~ContextBuilder() = default;
 
-    void setIndex(RSIndex *index);
-
 protected:
-    RSIndex *index();
     KDevelop::RangeInRevision editorFindSpellingRange(RustNode *node, const KDevelop::Identifier &identifier);
 
     template<RSNodeKind Kind>
@@ -38,8 +35,6 @@ protected:
 
 private:
     friend RSVisitResult visitCallback(RSNode *node, RSNode *parent, void *data);
-
-    RSIndex *m_index;
 };
 
 }

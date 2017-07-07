@@ -66,7 +66,7 @@ void ParseJob::run(ThreadWeaver::JobPointer self, ThreadWeaver::Thread *thread)
     ParseSession session(findParseSessionData(document()));
 
     if (!session.data()) {
-        session.setData(ParseSessionData::Ptr(new ParseSessionData(document(), contents().contents, rust()->index())));
+        session.setData(ParseSessionData::Ptr(new ParseSessionData(document(), contents().contents)));
     }
 
     if (abortRequested()) {
@@ -89,7 +89,6 @@ void ParseJob::run(ThreadWeaver::JobPointer self, ThreadWeaver::Thread *thread)
     RustNode node(crateNode);
 
     DeclarationBuilder builder;
-    builder.setIndex(rust()->index());
     auto context = builder.build(document(), &node, toUpdate);
 
     setDuChain(context);
