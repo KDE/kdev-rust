@@ -15,19 +15,25 @@ RSVisitResult UseBuilder::visitNode(RustNode *node, RustNode *parent)
     using namespace KDevelop;
     RSNodeKind kind = node_get_kind(node->data());
 
-    if (kind == PathUse) {
-        RustPath path(node);
+    if (kind == PathSegment) {
+        RustPath segment(node);
+        RustPath path(parent);
+        QualifiedIdentifier qualifiedPath = identifierForNode(&path);
+        IndexedIdentifier pathSegment = IndexedIdentifier(Identifier(segment.value));
 
+        // eh, this feels way too much like a hack
+        while (qualifiedPath.last() != pathSegment) {
+            qualifiedPath.pop();
+        }
 
-        RustPath name(node);
-        RangeInRevision useRange = editorFindSpellingRange(node, name.value);
+        RangeInRevision useRange = editorFindSpellingRange(node, segment.value);
 
-        qCDebug(KDEV_RUST) << "USE:" << name.value << "; spelling range: ("
+        qCDebug(KDEV_RUST) << "USE:" << segment.value << "; spelling range: ("
                            << useRange.start.line + 1 << ":" << useRange.start.column << "-"
                            << useRange.end.line + 1 << ":" << useRange.end.column << ")";
 
         DUContext *context = topContext()->findContextAt(useRange.start);
-        QList<Declaration *> declarations = context->findDeclarations(identifierForNode(&path));
+        QList<Declaration *> declarations = context->findDeclarations(qualifiedPath);
 
         if (declarations.isEmpty()) {
             Problem *p = new Problem();
