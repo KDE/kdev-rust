@@ -17,7 +17,7 @@ public:
     virtual ~ContextBuilder() = default;
 
 protected:
-    KDevelop::RangeInRevision editorFindSpellingRange(RustNode *node, const KDevelop::Identifier &identifier);
+    KDevelop::RangeInRevision editorFindSpellingRange(RustNode *node, const QString &identifier);
 
     template<RSNodeKind Kind>
     KDevelop::DUContext *createContext(RSNode *node, const KDevelop::QualifiedIdentifier& scopeId);

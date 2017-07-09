@@ -38,7 +38,7 @@ private:
     RSVisitResult buildDeclaration(RustNode *node, RustNode *parent);
 
     template <RSNodeKind Kind>
-    KDevelop::Declaration *createDeclaration(RustNode *node, const KDevelop::Identifier &id);
+    KDevelop::Declaration *createDeclaration(RustNode *node, RustPath *names);
 
     template <RSNodeKind Kind, EnableIf<NodeTraits::isTypeDeclaration(Kind)> = dummy>
     typename IdType<Kind>::Type::Ptr createType(RustNode *node);

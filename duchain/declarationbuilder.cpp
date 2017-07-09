@@ -58,7 +58,7 @@ RSVisitResult DeclarationBuilder::buildDeclaration(RustNode *node, RustNode *par
                        << extent.end.line << ":" << extent.end.column << ")";
 
     if (hasContext) {
-        createDeclaration<Kind>(node, Identifier(name.value));
+        createDeclaration<Kind>(node, &name);
         openContext(node, NodeTraits::contextType(Kind), &name);
         visitChildren(node);
         closeContext();
@@ -66,16 +66,16 @@ RSVisitResult DeclarationBuilder::buildDeclaration(RustNode *node, RustNode *par
         closeDeclaration();
         return Continue;
     }
-    createDeclaration<Kind>(node, Identifier(name.value));
+    createDeclaration<Kind>(node, &name);
     return Recurse;
 }
 
 template <RSNodeKind Kind>
-Declaration *DeclarationBuilder::createDeclaration(RustNode *node, const Identifier &id)
+Declaration *DeclarationBuilder::createDeclaration(RustNode *node, RustPath *name)
 {
-    auto range = editorFindSpellingRange(node, id);
+    auto range = editorFindSpellingRange(node, name->value);
 
-    Declaration *decl = openDeclaration<typename DeclType<Kind>::Type>(id, range);
+    Declaration *decl = openDeclaration<typename DeclType<Kind>::Type>(Identifier(name->value), range);
     auto type = createType<Kind>(node);
     openType(type);
 
