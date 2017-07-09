@@ -56,6 +56,7 @@ set(kdevrustlanguagesupport_PART_SRCS
     rusthighlighting.cpp
     duchain/contextbuilder.cpp
     duchain/declarationbuilder.cpp
+    duchain/usebuilder.cpp
     duchain/rustnode.cpp
     duchain/rustducontext.cpp
     duchain/parsesession.cpp

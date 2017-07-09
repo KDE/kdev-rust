@@ -15,6 +15,7 @@ enum RSNodeKind
     FunctionDecl,
     ParmDecl,
     VarDecl,
+    PathUse,
     Unexposed
 };
 

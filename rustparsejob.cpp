@@ -12,6 +12,7 @@
 #include "duchain/parsesession.h"
 #include "duchain/astredux.h"
 #include "duchain/declarationbuilder.h"
+#include "duchain/usebuilder.h"
 
 #include "rustlanguagesupport.h"
 #include "rustdebug.h"
@@ -92,6 +93,9 @@ void ParseJob::run(ThreadWeaver::JobPointer self, ThreadWeaver::Thread *thread)
     auto context = builder.build(document(), &node, toUpdate);
 
     setDuChain(context);
+
+    UseBuilder uses;
+    uses.buildUses(&node);
 
     if (abortRequested()) {
         return;
