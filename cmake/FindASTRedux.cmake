@@ -1,6 +1,6 @@
 include(FindPackageHandleStandardArgs)
 
-find_library(ASTRedux_LIBRARY NAMES ast-redux)
+find_library(ASTRedux_LIBRARY NAMES ast_redux)
 
 find_package_handle_standard_args(ASTRedux DEFAULT_MSG ASTRedux_LIBRARY)
 
