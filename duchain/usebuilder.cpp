@@ -26,7 +26,7 @@ RSVisitResult UseBuilder::visitNode(RustNode *node, RustNode *parent)
             qualifiedPath.pop();
         }
 
-        RangeInRevision useRange = editorFindSpellingRange(node, segment.value);
+        RangeInRevision useRange = editorFindRange(node, node);
 
         qCDebug(KDEV_RUST) << "USE:" << segment.value << "; spelling range: ("
                            << useRange.start.line + 1 << ":" << useRange.start.column << "-"
