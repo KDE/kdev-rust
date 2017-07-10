@@ -24,12 +24,12 @@ class LanguageSupport
 
 public:
     LanguageSupport(QObject* parent, const QVariantList& args = QVariantList());
-    ~LanguageSupport();
+    ~LanguageSupport() override;
 
     QString name() const override;
     KDevelop::ParseJob* createParseJob(const KDevelop::IndexedString &url) override;
 
-    virtual KDevelop::ICodeHighlighting *codeHighlighting() const;
+    KDevelop::ICodeHighlighting *codeHighlighting() const override;
 
 private:
     Highlighting* m_highlighting;

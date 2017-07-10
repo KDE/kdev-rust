@@ -17,7 +17,7 @@ public:
     ParseSessionData(const KDevelop::IndexedString &document,
                      const QByteArray &contents);
 
-    virtual ~ParseSessionData();
+    ~ParseSessionData() override;
 
 private:
     friend class ParseSession;

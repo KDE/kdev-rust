@@ -15,9 +15,9 @@ class UseBuilder : public UseBuilderBase
 {
 public:
     UseBuilder() = default;
-    virtual ~UseBuilder() = default;
+    ~UseBuilder() override = default;
 
-    virtual RSVisitResult visitNode(RustNode *node, RustNode *parent);
+    RSVisitResult visitNode(RustNode *node, RustNode *parent) override;
 };
 
 }

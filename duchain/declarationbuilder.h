@@ -28,10 +28,10 @@ class DeclarationBuilder : public DeclarationBuilderBase
 {
 public:
     DeclarationBuilder() = default;
-    virtual ~DeclarationBuilder() = default;
+    ~DeclarationBuilder() override = default;
 
 protected:
-    virtual RSVisitResult visitNode(RustNode *node, RustNode *parent);
+    RSVisitResult visitNode(RustNode *node, RustNode *parent) override;
 
 private:
     template <RSNodeKind Kind>

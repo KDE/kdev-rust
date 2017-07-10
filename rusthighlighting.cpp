@@ -9,7 +9,7 @@ class HighlightingInstance : public CodeHighlightingInstance
 {
 public:
     HighlightingInstance(const Highlighting *highlighting);
-    virtual ~HighlightingInstance();
+    ~HighlightingInstance() override;
 };
 
 HighlightingInstance::HighlightingInstance(const Highlighting *highlighting)

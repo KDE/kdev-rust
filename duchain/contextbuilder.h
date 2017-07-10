@@ -14,7 +14,7 @@ class ContextBuilder : public ContextBuilderBase
 {
 public:
     ContextBuilder() = default;
-    virtual ~ContextBuilder() = default;
+    ~ContextBuilder() override = default;
 
 protected:
     KDevelop::RangeInRevision editorFindSpellingRange(RustNode *node, const QString &identifier);

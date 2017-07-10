@@ -24,7 +24,7 @@ public:
         static_cast<KDevelop::DUChainBase*>(this)->d_func_dynamic()->setClassId(this);
     }
 
-    virtual QWidget *createNavigationWidget(KDevelop::Declaration* decl = 0, KDevelop::TopDUContext* topContext = 0,
+    QWidget *createNavigationWidget(KDevelop::Declaration* decl = 0, KDevelop::TopDUContext* topContext = 0,
                                             const QString& htmlPrefix = QString(), const QString& htmlSuffix = QString(),
                                             KDevelop::AbstractNavigationWidget::DisplayHints hints = KDevelop::AbstractNavigationWidget::NoHints) const override;
 
