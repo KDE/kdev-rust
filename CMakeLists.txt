@@ -11,6 +11,7 @@ set(KDEVPLATFORM_VERSION "${KDEVRUST_VERSION_MAJOR}.${KDEVRUST_VERSION_MINOR}.${
 find_package(ECM 5.14.0 REQUIRED NO_MODULE)
 
 set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} ${ECM_MODULE_PATH})
+set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} ${CMAKE_CURRENT_SOURCE_DIR}/cmake/)
 
 include(KDECompilerSettings NO_POLICY_SCOPE)
 include(GenerateExportHeader)
@@ -27,6 +28,9 @@ include(KDECMakeSettings)
 find_package(Qt5 REQUIRED Core Widgets Test)
 find_package(KF5 REQUIRED COMPONENTS ItemModels ThreadWeaver TextEditor I18n)
 find_package(KDevPlatform ${KDEVPLATFORM_VERSION} REQUIRED)
+
+find_package(ASTRedux MODULE)
+set_package_properties(ASTRedux PROPERTIES TYPE REQUIRED)
 
 if (CMAKE_CXX_COMPILER_ID MATCHES "Clang")
     set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wdocumentation")
@@ -47,8 +51,6 @@ include_directories(
 #    ${CMAKE_CURRENT_SOURCE_DIR}/parser
 #    ${CMAKE_CURRENT_BINARY_DIR}/parser
 )
-
-link_directories(${AST_REDUX_LIBDIR})
 
 set(kdevrustlanguagesupport_PART_SRCS
     rustlanguagesupport.cpp
@@ -83,7 +85,7 @@ target_link_libraries(kdevrustlanguagesupport
  #   kdevrustparser
  #   kdevrustduchain
  #   kdevrustcompletion
-    ast_redux
+    ${ASTRedux_LIBRARY}
 )
 
 install(FILES kdevrustsupport.categories DESTINATION ${KDE_INSTALL_CONFDIR})
