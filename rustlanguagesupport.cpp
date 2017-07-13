@@ -7,6 +7,7 @@
 #include <interfaces/idocumentcontroller.h>
 #include <interfaces/ilanguagecontroller.h>
 #include <language/duchain/duchainlock.h>
+#include <language/codecompletion/codecompletion.h>
 
 #include <KPluginFactory>
 #include <KPluginLoader>
@@ -14,6 +15,7 @@
 #include <QReadWriteLock>
 
 #include "rustparsejob.h"
+#include "codecompletion/completionmodel.h"
 
 K_PLUGIN_FACTORY_WITH_JSON(KDevRustSupportFactory, "kdevrustsupport.json", registerPlugin<Rust::LanguageSupport>(); )
 
@@ -29,7 +31,7 @@ LanguageSupport::LanguageSupport(QObject *parent, const QVariantList& args)
 {
     Q_UNUSED(args);
 
-    qCDebug(KDEV_RUST) << "Hello world, Rust plugin initialized is loaded!";
+    new CodeCompletion(this, new CompletionModel(this), name());
 }
 
 LanguageSupport::~LanguageSupport()

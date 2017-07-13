@@ -64,6 +64,9 @@ set(kdevrustlanguagesupport_PART_SRCS
     duchain/parsesession.cpp
     duchain/astredux.h
     duchain/nodetraits.h
+    codecompletion/completionmodel.cpp
+    codecompletion/completionworker.cpp
+    codecompletion/completioncontext.cpp
 #    rustdebug.cpp
 )
 
