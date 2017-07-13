@@ -21,12 +21,12 @@ HighlightingInstance::~HighlightingInstance()
 {
 }
 
-Highlighting::Highlighting(QObject* parent)
+Highlighting::Highlighting(QObject *parent)
     : CodeHighlighting(parent)
 {
 }
 
-CodeHighlightingInstance* Highlighting::createInstance() const
+CodeHighlightingInstance *Highlighting::createInstance() const
 {
     return new HighlightingInstance(this);
 }

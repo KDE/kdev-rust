@@ -23,16 +23,16 @@ class LanguageSupport
     Q_INTERFACES( KDevelop::ILanguageSupport )
 
 public:
-    LanguageSupport(QObject* parent, const QVariantList& args = QVariantList());
+    LanguageSupport(QObject *parent, const QVariantList &args = QVariantList());
     ~LanguageSupport() override;
 
     QString name() const override;
-    KDevelop::ParseJob* createParseJob(const KDevelop::IndexedString &url) override;
+    KDevelop::ParseJob *createParseJob(const KDevelop::IndexedString &url) override;
 
     KDevelop::ICodeHighlighting *codeHighlighting() const override;
 
 private:
-    Highlighting* m_highlighting;
+    Highlighting *m_highlighting;
 };
 
 }

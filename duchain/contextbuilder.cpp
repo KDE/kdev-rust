@@ -12,7 +12,7 @@ namespace Rust
 
 RSVisitResult visitCallback(RSNode *node, RSNode *parent, void *data);
 
-RangeInRevision ContextBuilder::editorFindSpellingRange(RustNode *node, const QString& identifier)
+RangeInRevision ContextBuilder::editorFindSpellingRange(RustNode *node, const QString &identifier)
 {
     RSRange range = node_get_spelling_range(node->data());
     KTextEditor::Range incorrectRange = KTextEditor::Range(range.start.line - 1, range.start.column, INT_MAX, INT_MAX);

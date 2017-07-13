@@ -24,7 +24,7 @@ using namespace KDevelop;
 namespace Rust
 {
 
-LanguageSupport::LanguageSupport(QObject *parent, const QVariantList& args)
+LanguageSupport::LanguageSupport(QObject *parent, const QVariantList &args)
     : KDevelop::IPlugin(QStringLiteral("kdevrustsupport"), parent),
       KDevelop::ILanguageSupport(),
       m_highlighting(new Highlighting(this))
@@ -47,7 +47,7 @@ QString LanguageSupport::name() const
     return "Rust Language Support";
 }
 
-KDevelop::ParseJob* LanguageSupport::createParseJob(const KDevelop::IndexedString &url)
+KDevelop::ParseJob *LanguageSupport::createParseJob(const KDevelop::IndexedString &url)
 {
     return new ParseJob(url, this);
 }
