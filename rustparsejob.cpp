@@ -86,29 +86,56 @@ void ParseJob::run(ThreadWeaver::JobPointer self, ThreadWeaver::Thread *thread)
 
     session.parse();
 
-    RustOwnedNode crateNode = RustOwnedNode(node_from_crate(session.crate()));
-    RustNode node(crateNode);
+    ReferencedTopDUContext context;
 
-    DeclarationBuilder builder;
-    auto context = builder.build(document(), &node, toUpdate);
+    if (session.crate() != nullptr) {
+        qCDebug(KDEV_RUST) << "Parsing succeeded for: " << document().toUrl();
+        RustOwnedNode crateNode = RustOwnedNode(node_from_crate(session.crate()));
+        RustNode node(crateNode);
 
-    setDuChain(context);
+        DeclarationBuilder builder;
+        context = builder.build(document(), &node, toUpdate);
 
-    UseBuilder uses;
-    uses.buildUses(&node);
+        setDuChain(context);
 
-    if (abortRequested()) {
-        return;
-    }
+        UseBuilder uses;
+        uses.buildUses(&node);
 
-    if (context) {
-        if (minimumFeatures() & TopDUContext::AST) {
-            DUChainWriteLocker lock;
-            context->setAst(IAstContainer::Ptr(session.data()));
+        if (abortRequested()) {
+            return;
         }
 
         highlightDUChain();
+
+    } else {
+        qCDebug(KDEV_RUST) << "Parsing failed for: " << document().toUrl();
+
+        DUChainWriteLocker lock;
+        context = toUpdate.data();
+
+        if (context) {
+            ParsingEnvironmentFilePointer parsingEnvironmentFile = context->parsingEnvironmentFile();
+            parsingEnvironmentFile->setModificationRevision(contents().modification);
+            context->clearProblems();
+        } else {
+            ParsingEnvironmentFile *file = new ParsingEnvironmentFile(document());
+            file->setLanguage(IndexedString("Rust"));
+
+            context = new TopDUContext(document(), RangeInRevision(0, 0, INT_MAX, INT_MAX), file);
+            DUChain::self()->addDocumentChain(context);
+        }
+
+        setDuChain(context);
     }
+
+    // TODO: add problems exposed by libsyntax
+
+    if (minimumFeatures() & TopDUContext::AST) {
+        DUChainWriteLocker lock;
+        context->setAst(IAstContainer::Ptr(session.data()));
+    }
+
+    DUChain::self()->emitUpdateReady(document(), duChain());
     qCDebug(KDEV_RUST) << "Parse job finished for: " << document().toUrl();
 }
 
