@@ -1,5 +1,10 @@
 #include "completioncontext.h"
 
+#include <language/duchain/ducontext.h>
+#include <language/duchain/declaration.h>
+#include <language/duchain/duchainlock.h>
+#include <language/codecompletion/normaldeclarationcompletionitem.h>
+
 #include "rustdebug.h"
 
 namespace Rust
@@ -20,9 +25,21 @@ CompletionContext::CompletionContext(DUContextPointer context,
 
 QList<CompletionTreeItemPointer> CompletionContext::completionItems(bool &abort, bool fullCompletion)
 {
-    qCDebug(KDEV_RUST) << "Hello world, no completions yet";
+    QList<CompletionTreeItemPointer> items;
 
-    return QList<CompletionTreeItemPointer>();
+    DUChainReadLocker lock;
+    auto declarations = m_duContext->allDeclarations(CursorInRevision::invalid(), m_duContext->topContext());
+    for(const QPair<Declaration *, int> &decl : declarations)
+    {
+        if(decl.first->topContext() != m_duContext->topContext())
+            continue;
+        if(decl.first->identifier() == globalImportIdentifier() || decl.first->identifier() == globalAliasIdentifier()
+            || decl.first->identifier() == Identifier())
+            continue;
+
+        items << CompletionTreeItemPointer(new NormalDeclarationCompletionItem(DeclarationPointer(decl.first)));
+    }
+    return items;
 }
 
 }
