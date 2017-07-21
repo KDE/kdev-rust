@@ -27,26 +27,26 @@ RSVisitResult UseBuilder::visitNode(RustNode *node, RustNode *parent)
         }
 
         RangeInRevision useRange = editorFindRange(node, node);
-
-        qCDebug(KDEV_RUST) << "USE:" << segment.value << "; spelling range: ("
-                           << useRange.start.line + 1 << ":" << useRange.start.column << "-"
-                           << useRange.end.line + 1 << ":" << useRange.end.column << ")";
-
         DUContext *context = topContext()->findContextAt(useRange.start);
         QList<Declaration *> declarations = context->findDeclarations(qualifiedPath);
 
-        if (declarations.isEmpty()) {
-            Problem *p = new Problem();
+//        qCDebug(KDEV_RUST) << "USE:" << segment.value << "; spelling range: ("
+//                           << useRange.start.line + 1 << ":" << useRange.start.column << "-"
+//                           << useRange.end.line + 1 << ":" << useRange.end.column << "); context:"
+//                           << context->localScopeIdentifier()
+//                           << context->range();
+
+
+        if (declarations.isEmpty() || !declarations.first()) {
+            ProblemPointer p = ProblemPointer(new Problem());
             p->setFinalLocation(DocumentRange(document(), useRange.castToSimpleRange()));
             p->setSource(IProblem::SemanticAnalysis);
             p->setSeverity(IProblem::Hint);
             p->setDescription(i18n("Undefined %1", path.value));
-            {
-                DUChainWriteLocker wlock(DUChain::lock());
-                ProblemPointer ptr(p);
-                topContext()->addProblem(ptr);
-            }
-        } else if (declarations.first() && declarations.first()->range() != useRange) {
+
+            DUChainWriteLocker wlock(DUChain::lock());
+            topContext()->addProblem(p);
+        } else if (declarations.first()->range() != useRange) {
             UseBuilderBase::newUse(node, useRange, DeclarationPointer(declarations.first()));
         }
     }
