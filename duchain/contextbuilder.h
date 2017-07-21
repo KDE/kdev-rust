@@ -4,6 +4,7 @@
 #include <language/duchain/builders/abstractcontextbuilder.h>
 
 #include "rustnode.h"
+#include "parsesession.h"
 
 namespace Rust
 {
@@ -15,6 +16,8 @@ class ContextBuilder : public ContextBuilderBase
 public:
     ContextBuilder() = default;
     ~ContextBuilder() override = default;
+
+    void setParseSession(ParseSession *session);
 
 protected:
     KDevelop::RangeInRevision editorFindSpellingRange(RustNode *node, const QString &identifier);
@@ -35,6 +38,8 @@ protected:
 
 private:
     friend RSVisitResult visitCallback(RSNode *node, RSNode *parent, void *data);
+
+    ParseSession *session;
 };
 
 }

@@ -2,9 +2,11 @@
 #define PARSESESSION_H
 
 #include <serialization/indexedstring.h>
+#include <language/duchain/ducontext.h>
 #include <language/interfaces/iastcontainer.h>
 
 #include "astredux.h"
+#include "rustnode.h"
 
 namespace Rust
 {
@@ -42,6 +44,9 @@ public:
 
     KDevelop::IndexedString document() const;
     RSCrate *crate() const;
+
+    void setContextOnNode(RustNode *node, KDevelop::DUContext *context);
+    KDevelop::DUContext *contextFromNode(RustNode *node);
 
 private:
     Q_DISABLE_COPY(ParseSession)

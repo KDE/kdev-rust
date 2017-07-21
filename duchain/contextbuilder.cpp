@@ -12,6 +12,11 @@ namespace Rust
 
 RSVisitResult visitCallback(RSNode *node, RSNode *parent, void *data);
 
+void ContextBuilder::setParseSession(ParseSession *session)
+{
+    this->session = session;
+}
+
 RangeInRevision ContextBuilder::editorFindSpellingRange(RustNode *node, const QString &identifier)
 {
     RSRange range = node_get_spelling_range(node->data());
@@ -41,12 +46,12 @@ void ContextBuilder::startVisiting(RustNode *node)
 
 void ContextBuilder::setContextOnNode(RustNode *node, KDevelop::DUContext *context)
 {
-    node->setContext(context);
+    session->setContextOnNode(node, context);
 }
 
 KDevelop::DUContext *ContextBuilder::contextFromNode(RustNode *node)
 {
-    return node->getContext();
+    return session->contextFromNode(node);
 }
 
 KDevelop::RangeInRevision ContextBuilder::editorFindRange(RustNode *fromNode, RustNode *toNode)

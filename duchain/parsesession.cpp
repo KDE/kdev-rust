@@ -57,4 +57,14 @@ RSCrate *ParseSession::crate() const
     return d->m_crate;
 }
 
+void ParseSession::setContextOnNode(RustNode *node, KDevelop::DUContext *context)
+{
+    node->setContext(context);
+}
+
+KDevelop::DUContext *ParseSession::contextFromNode(RustNode *node)
+{
+    return node->getContext();
+}
+
 }

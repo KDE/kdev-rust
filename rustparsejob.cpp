@@ -94,11 +94,13 @@ void ParseJob::run(ThreadWeaver::JobPointer self, ThreadWeaver::Thread *thread)
         RustNode node(crateNode);
 
         DeclarationBuilder builder;
+        builder.setParseSession(&session);
         context = builder.build(document(), &node, toUpdate);
 
         setDuChain(context);
 
         UseBuilder uses;
+        uses.setParseSession(&session);
         uses.buildUses(&node);
 
         if (abortRequested()) {
