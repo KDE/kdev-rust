@@ -79,20 +79,20 @@ void ParseJob::run(ThreadWeaver::JobPointer self, ThreadWeaver::Thread *thread)
         DUChainReadLocker lock;
         toUpdate = DUChainUtils::standardContextForUrl(document().toUrl());
     }
+
     if (toUpdate) {
         translateDUChainToRevision(toUpdate);
         toUpdate->setRange(RangeInRevision(0, 0, INT_MAX, INT_MAX));
     }
 
     session.parse();
+    RustOwnedNode crateNode = RustOwnedNode(node_from_crate(session.crate()));
 
     ReferencedTopDUContext context;
 
-    if (session.crate() != nullptr) {
-        qCDebug(KDEV_RUST) << "Parsing succeeded for: " << document().toUrl();
-        RustOwnedNode crateNode = RustOwnedNode(node_from_crate(session.crate()));
+    if (crateNode.data() != nullptr) {
         RustNode node(crateNode);
-
+        qCDebug(KDEV_RUST) << "Parsing succeeded for: " << document().toUrl();
         DeclarationBuilder builder;
         builder.setParseSession(&session);
         context = builder.build(document(), &node, toUpdate);
@@ -108,7 +108,6 @@ void ParseJob::run(ThreadWeaver::JobPointer self, ThreadWeaver::Thread *thread)
         }
 
         highlightDUChain();
-
     } else {
         qCDebug(KDEV_RUST) << "Parsing failed for: " << document().toUrl();
 
