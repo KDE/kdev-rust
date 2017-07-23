@@ -59,12 +59,12 @@ RSCrate *ParseSession::crate() const
 
 void ParseSession::setContextOnNode(RustNode *node, KDevelop::DUContext *context)
 {
-    node->setContext(context);
+    d->m_nodeContextMap.insert(node_get_id(node->data()), context);
 }
 
 KDevelop::DUContext *ParseSession::contextFromNode(RustNode *node)
 {
-    return node->getContext();
+    return d->m_nodeContextMap.value(node_get_id(node->data()));
 }
 
 }

@@ -34,6 +34,22 @@ RangeInRevision ContextBuilder::editorFindSpellingRange(RustNode *node, const QS
     return RangeInRevision::castFromSimpleRange(ranges.first());
 }
 
+RSVisitResult ContextBuilder::visitNode(RustNode *node, RustNode *parent)
+{
+    Q_UNUSED(parent);
+    RustPath name(node);
+    RSNodeKind kind = node_get_kind(node->data());
+    bool hasContext = NodeTraits::hasContext(kind);
+
+    if (hasContext) {
+        openContext(node, NodeTraits::contextType(kind), &name);
+        visitChildren(node);
+        closeContext();
+        return Continue;
+    }
+    return Recurse;
+}
+
 void ContextBuilder::visitChildren(RustNode *node)
 {
     visit_children(node->data(), visitCallback, this);

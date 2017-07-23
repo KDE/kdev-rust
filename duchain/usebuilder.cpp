@@ -56,7 +56,7 @@ RSVisitResult UseBuilder::visitNode(RustNode *node, RustNode *parent)
         }
     }
 
-    return Recurse;
+    return ContextBuilder::visitNode(node, parent);
 }
 
 }

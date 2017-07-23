@@ -1,6 +1,8 @@
 #ifndef PARSESESSION_H
 #define PARSESESSION_H
 
+#include <QMap>
+
 #include <serialization/indexedstring.h>
 #include <language/duchain/ducontext.h>
 #include <language/interfaces/iastcontainer.h>
@@ -29,6 +31,7 @@ private:
     KDevelop::IndexedString m_document;
     QByteArray m_contents;
     RSCrate *m_crate;
+    QMap<unsigned int, KDevelop::DUContext *> m_nodeContextMap;
 };
 
 class ParseSession

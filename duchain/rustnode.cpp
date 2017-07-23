@@ -15,25 +15,13 @@ RustPath::RustPath(RustNode *node)
 }
 
 RustNode::RustNode(RSNode *node)
-    : RustAllocatedObject(node),
-      context(nullptr)
+    : RustAllocatedObject(node)
 {
 }
 
 RustNode::RustNode(RustOwnedNode &node)
-    : RustAllocatedObject(node.data()),
-      context(nullptr)
+    : RustAllocatedObject(node.data())
 {
-}
-
-KDevelop::DUContext *RustNode::getContext()
-{
-    return context;
-}
-
-void RustNode::setContext(KDevelop::DUContext *context)
-{
-    this->context = context;
 }
 
 template<typename RustObjectType, void (*RustDestructor)(RustObjectType *)>

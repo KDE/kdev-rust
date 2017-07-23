@@ -46,12 +46,6 @@ class RustNode : public RustAllocatedObject<RSNode, noop_destructor>
 public:
     RustNode(RSNode *node);
     RustNode(RustOwnedNode &node);
-
-    KDevelop::DUContext *getContext();
-    void setContext(KDevelop::DUContext *context);
-
-private:
-    KDevelop::DUContext *context;
 };
 
 class RustPath

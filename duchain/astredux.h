@@ -51,6 +51,7 @@ void destroy_crate(RSCrate *crate);
 RSNode *node_from_crate(RSCrate *crate);
 void destroy_node(RSNode *node);
 
+unsigned int node_get_id(RSNode *node);
 RSCrate *node_get_crate(RSNode *node);
 RSNodeKind node_get_kind(RSNode *node);
 

@@ -25,7 +25,7 @@ protected:
     template<RSNodeKind Kind>
     KDevelop::DUContext *createContext(RSNode *node, const KDevelop::QualifiedIdentifier& scopeId);
 
-    virtual RSVisitResult visitNode(RustNode *node, RustNode *parent) = 0;
+    virtual RSVisitResult visitNode(RustNode *node, RustNode *parent);
     void visitChildren(RustNode *node);
 
     void startVisiting(RustNode *node) override;
