@@ -10,6 +10,11 @@
 namespace Rust
 {
 
+UseBuilder::UseBuilder(const KDevelop::IndexedString &document)
+    : document(document)
+{
+}
+
 RSVisitResult UseBuilder::visitNode(RustNode *node, RustNode *parent)
 {
     using namespace KDevelop;
@@ -39,12 +44,12 @@ RSVisitResult UseBuilder::visitNode(RustNode *node, RustNode *parent)
 
         if (declarations.isEmpty() || !declarations.first()) {
             ProblemPointer p = ProblemPointer(new Problem());
-            p->setFinalLocation(DocumentRange(document(), useRange.castToSimpleRange()));
+            p->setFinalLocation(DocumentRange(document, useRange.castToSimpleRange()));
             p->setSource(IProblem::SemanticAnalysis);
             p->setSeverity(IProblem::Hint);
             p->setDescription(i18n("Undefined %1", path.value));
 
-            DUChainWriteLocker wlock(DUChain::lock());
+            DUChainWriteLocker lock(DUChain::lock());
             topContext()->addProblem(p);
         } else if (declarations.first()->range() != useRange) {
             UseBuilderBase::newUse(node, useRange, DeclarationPointer(declarations.first()));

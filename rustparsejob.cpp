@@ -83,6 +83,7 @@ void ParseJob::run(ThreadWeaver::JobPointer self, ThreadWeaver::Thread *thread)
     if (toUpdate) {
         translateDUChainToRevision(toUpdate);
         toUpdate->setRange(RangeInRevision(0, 0, INT_MAX, INT_MAX));
+        toUpdate->clearProblems();
     }
 
     session.parse();
@@ -99,7 +100,7 @@ void ParseJob::run(ThreadWeaver::JobPointer self, ThreadWeaver::Thread *thread)
 
         setDuChain(context);
 
-        UseBuilder uses;
+        UseBuilder uses(document());
         uses.setParseSession(&session);
         uses.buildUses(&node);
 

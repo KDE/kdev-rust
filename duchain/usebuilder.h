@@ -2,6 +2,7 @@
 #define USEBUILDER_H
 
 #include <language/duchain/builders/abstractusebuilder.h>
+#include <serialization/indexedstring.h>
 
 #include "contextbuilder.h"
 #include "rustnode.h"
@@ -14,10 +15,13 @@ using UseBuilderBase = KDevelop::AbstractUseBuilder<RustNode, RustPath, ContextB
 class UseBuilder : public UseBuilderBase
 {
 public:
-    UseBuilder() = default;
+    UseBuilder(const KDevelop::IndexedString &document);
     ~UseBuilder() override = default;
 
     RSVisitResult visitNode(RustNode *node, RustNode *parent) override;
+
+private:
+    KDevelop::IndexedString document;
 };
 
 }
