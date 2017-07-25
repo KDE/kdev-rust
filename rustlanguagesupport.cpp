@@ -44,7 +44,7 @@ LanguageSupport::~LanguageSupport()
 
 QString LanguageSupport::name() const
 {
-    return "Rust Language Support";
+    return "Rust";
 }
 
 KDevelop::ParseJob *LanguageSupport::createParseJob(const KDevelop::IndexedString &url)
