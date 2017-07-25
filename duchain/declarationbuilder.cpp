@@ -48,28 +48,12 @@ RSVisitResult DeclarationBuilder::buildDeclaration(RustNode *node, RustNode *par
     constexpr bool hasContext = NodeTraits::hasContext(Kind);
 
     RustPath name(node);
-    RSRange range = node_get_spelling_range(node->data());
-    RSRange extent = node_get_extent(node->data());
 
-//    qCDebug(KDEV_RUST) << "DECLARATION:" << name.value << "; spelling range: ("
-//                       << range.start.line << ":" << range.start.column << "-"
-//                       << range.end.line << ":" << range.end.column << "); extent: ("
-//                       << extent.start.line << ":" << extent.start.column << "-"
-//                       << extent.end.line << ":" << extent.end.column << "); context:"
-//                       << currentContext()->localScopeIdentifier()
-//                       << currentContext()->range();
-
-    if (hasContext) {
-        createDeclaration<Kind>(node, &name, hasContext);
-        openContext(node, NodeTraits::contextType(Kind), &name);
-        visitChildren(node);
-        closeContext();
-        eventuallyAssignInternalContext();
-        closeDeclaration();
-        return Continue;
-    }
     createDeclaration<Kind>(node, &name, hasContext);
-    return Recurse;
+    RSVisitResult ret = buildContext<Kind>(node, parent);
+    if (hasContext) eventuallyAssignInternalContext();
+    closeDeclaration();
+    return ret;
 }
 
 template <RSNodeKind Kind>

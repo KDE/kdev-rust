@@ -22,6 +22,9 @@ public:
 protected:
     KDevelop::RangeInRevision editorFindSpellingRange(RustNode *node, const QString &identifier);
 
+    template <RSNodeKind>
+    RSVisitResult buildContext(RustNode *node, RustNode *parent);
+
     template<RSNodeKind Kind>
     KDevelop::DUContext *createContext(RSNode *node, const KDevelop::QualifiedIdentifier& scopeId);
 

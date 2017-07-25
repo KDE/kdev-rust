@@ -36,13 +36,40 @@ RangeInRevision ContextBuilder::editorFindSpellingRange(RustNode *node, const QS
 
 RSVisitResult ContextBuilder::visitNode(RustNode *node, RustNode *parent)
 {
-    Q_UNUSED(parent);
-    RustPath name(node);
     RSNodeKind kind = node_get_kind(node->data());
-    bool hasContext = NodeTraits::hasContext(kind);
+
+#define BUILD_CONTEXT_FOR(K) case K: return buildContext<K>(node, parent);
+    switch (kind) {
+    BUILD_CONTEXT_FOR(Crate);
+    BUILD_CONTEXT_FOR(StructDecl);
+    BUILD_CONTEXT_FOR(EnumDecl);
+    BUILD_CONTEXT_FOR(TraitDecl);
+    BUILD_CONTEXT_FOR(ImplDecl);
+    BUILD_CONTEXT_FOR(TypeAliasDecl);
+    BUILD_CONTEXT_FOR(FieldDecl);
+    BUILD_CONTEXT_FOR(EnumVariantDecl);
+    BUILD_CONTEXT_FOR(FunctionDecl);
+    BUILD_CONTEXT_FOR(ParmDecl);
+    BUILD_CONTEXT_FOR(VarDecl);
+    BUILD_CONTEXT_FOR(Path);
+    BUILD_CONTEXT_FOR(PathSegment);
+    BUILD_CONTEXT_FOR(Unexposed);
+    }
+#undef BUILD_CONTEXT_FOR
+
+    return Recurse;
+}
+
+template <RSNodeKind Kind>
+RSVisitResult ContextBuilder::buildContext(RustNode *node, RustNode *parent)
+{
+    Q_UNUSED(parent);
+
+    constexpr bool hasContext = NodeTraits::hasContext(Kind);
+    RustPath name(node);
 
     if (hasContext) {
-        openContext(node, NodeTraits::contextType(kind), &name);
+        openContext(node, NodeTraits::contextType(Kind), &name);
         visitChildren(node);
         closeContext();
         return Continue;
