@@ -19,8 +19,9 @@ RSVisitResult UseBuilder::visitNode(RustNode *node, RustNode *parent)
 {
     using namespace KDevelop;
     RSNodeKind kind = node_get_kind(node->data());
+    RSNodeKind parentKind = node_get_kind(parent->data());
 
-    if (kind == PathSegment) {
+    if (parentKind == Path && kind == PathSegment) {
         RustPath segment(node);
         RustPath path(parent);
         QualifiedIdentifier qualifiedPath = identifierForNode(&path);
