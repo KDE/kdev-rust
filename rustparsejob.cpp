@@ -2,10 +2,13 @@
 
 #include <serialization/indexedstring.h>
 #include <interfaces/icore.h>
+#include <interfaces/ilanguagecontroller.h>
 #include <language/interfaces/ilanguagesupport.h>
+#include <language/backgroundparser/backgroundparser.h>
 #include <language/backgroundparser/urlparselock.h>
 #include <language/duchain/duchainlock.h>
 #include <language/duchain/duchainutils.h>
+#include <language/duchain/duchaindumper.h>
 
 #include <QReadLocker>
 
@@ -58,6 +61,31 @@ void ParseJob::run(ThreadWeaver::JobPointer self, ThreadWeaver::Thread *thread)
     {
         UrlParseLock urlLock(document());
         readContents();
+    }
+
+    if (abortRequested()) {
+        return;
+    }
+
+    if (!(minimumFeatures() & TopDUContext::ForceUpdate || minimumFeatures() & Rescheduled)) {
+        DUChainReadLocker lock;
+        static const IndexedString langString(rust()->name());
+        for (const ParsingEnvironmentFilePointer &file : DUChain::self()->allEnvironmentFiles(document())) {
+            if (file->language() != langString) {
+                continue;
+            }
+
+            if (!file->needsUpdate() && file->featuresSatisfied(minimumFeatures()) && file->topContext()) {
+                qCDebug(KDEV_RUST) << "Already up to date, skipping:" << document().str();
+                setDuChain(file->topContext());
+                if (ICore::self()->languageController()->backgroundParser()->trackerForUrl(document())) {
+                    lock.unlock();
+                    highlightDUChain();
+                }
+                return;
+            }
+            break;
+        }
     }
 
     if (abortRequested()) {

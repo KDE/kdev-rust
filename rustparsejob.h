@@ -17,8 +17,11 @@ class LanguageSupport;
 class ParseJob : public KDevelop::ParseJob
 {
     Q_OBJECT
-
 public:
+    enum {
+        Rescheduled = (KDevelop::TopDUContext::LastFeature << 1),
+    };
+
     ParseJob(const KDevelop::IndexedString &url, KDevelop::ILanguageSupport *languageSupport);
 
 protected:
