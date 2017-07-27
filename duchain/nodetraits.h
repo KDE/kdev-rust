@@ -24,8 +24,8 @@ constexpr KDevelop::DUContext::ContextType contextType(RSNodeKind kind)
         :  kind == Module       ? DUContext::Namespace
         :  kind == StructDecl   ? DUContext::Class
         :  kind == EnumDecl     ? DUContext::Enum
-        :  kind == TraitDecl    ? DUContext::Helper
-        :  kind == ImplDecl     ? DUContext::Helper
+        :  kind == TraitDecl    ? DUContext::Class
+        :  kind == ImplDecl     ? DUContext::Class
         :  kind == FunctionDecl ? DUContext::Other // FIXME: function args should be in a Function context
         : static_cast<DUContext::ContextType>(-1);
 }
