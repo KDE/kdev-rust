@@ -41,6 +41,7 @@ RSVisitResult ContextBuilder::visitNode(RustNode *node, RustNode *parent)
 #define BUILD_CONTEXT_FOR(K) case K: return buildContext<K>(node, parent);
     switch (kind) {
     BUILD_CONTEXT_FOR(Crate);
+    BUILD_CONTEXT_FOR(Module);
     BUILD_CONTEXT_FOR(StructDecl);
     BUILD_CONTEXT_FOR(EnumDecl);
     BUILD_CONTEXT_FOR(TraitDecl);

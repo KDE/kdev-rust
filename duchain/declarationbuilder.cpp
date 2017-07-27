@@ -18,6 +18,8 @@ RSVisitResult DeclarationBuilder::visitNode(RustNode *node, RustNode *parent)
     RSNodeKind kind = node_get_kind(node->data());
 
     switch (kind) {
+    case Module:
+        return buildDeclaration<Module>(node, parent);
     case StructDecl:
         return buildDeclaration<StructDecl>(node, parent);
     case EnumDecl:
@@ -37,7 +39,7 @@ RSVisitResult DeclarationBuilder::visitNode(RustNode *node, RustNode *parent)
     case VarDecl:
         return buildDeclaration<VarDecl>(node, parent);
     default:
-        return Recurse;
+        return ContextBuilder::visitNode(node, parent);
     }
 }
 

@@ -5,6 +5,7 @@ extern "C" {
 enum RSNodeKind
 {
     Crate,
+    Module,
     StructDecl,
     EnumDecl,
     TraitDecl,
