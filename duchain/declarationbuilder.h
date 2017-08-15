@@ -49,8 +49,17 @@ private:
     template <RSNodeKind Kind, EnableIf<!NodeTraits::isTypeDeclaration(Kind) && Kind != FunctionDecl> = dummy>
     KDevelop::AbstractType::Ptr createType(RustNode *node);
 
-    template <RSNodeKind Kind>
+    template <RSNodeKind Kind, EnableIf<Kind != VarDecl && Kind != Module> = dummy>
     void setDeclData(KDevelop::Declaration *decl);
+
+    template<RSNodeKind Kind, EnableIf<Kind == VarDecl> = dummy>
+    void setDeclData(KDevelop::Declaration *decl);
+
+    template<RSNodeKind Kind, EnableIf<Kind == Module> = dummy>
+    void setDeclData(KDevelop::Declaration *decl);
+
+    template<RSNodeKind Kind, EnableIf<Kind == TypeAliasDecl> = dummy>
+    void setDeclData(KDevelop::AliasDeclaration *decl);
 
     template <RSNodeKind Kind, EnableIf<NodeTraits::isTypeDeclaration(Kind)> = dummy>
     void setDeclData(KDevelop::ClassDeclaration *decl);

@@ -33,15 +33,14 @@ constexpr KDevelop::DUContext::ContextType contextType(RSNodeKind kind)
 
 constexpr bool isKDevDeclaration(RSNodeKind kind)
 {
-    return kind == EnumDecl || kind == TypeAliasDecl || kind == EnumVariantDecl
+    return kind == EnumDecl || kind == EnumVariantDecl
             || kind == ParmDecl || kind == VarDecl || kind == Module;
 }
 
 constexpr bool isTypeDeclaration(RSNodeKind kind)
 {
     return  kind == EnumDecl || kind == EnumVariantDecl
-            || kind == TypeAliasDecl || kind == StructDecl
-            || kind == ImplDecl || kind == TraitDecl;
+            || kind == StructDecl || kind == ImplDecl || kind == TraitDecl;
 }
 
 }

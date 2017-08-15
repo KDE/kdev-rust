@@ -133,9 +133,28 @@ void DeclarationBuilder::setDeclData(ClassDeclaration *decl)
     }
 }
 
-template<RSNodeKind Kind>
+template<RSNodeKind Kind, EnableIf<Kind == Module>>
 void DeclarationBuilder::setDeclData(Declaration *decl)
 {
+    decl->setKind(Declaration::Namespace);
+}
+
+template<RSNodeKind Kind, EnableIf<Kind == VarDecl>>
+void DeclarationBuilder::setDeclData(Declaration *decl)
+{
+    decl->setKind(Declaration::Instance);
+}
+
+template<RSNodeKind Kind, EnableIf<Kind == TypeAliasDecl>>
+void DeclarationBuilder::setDeclData(AliasDeclaration *decl)
+{
+    decl->setKind(Declaration::Alias);
+}
+
+template<RSNodeKind Kind, EnableIf<Kind != VarDecl && Kind != Module>>
+void DeclarationBuilder::setDeclData(Declaration *decl)
+{
+    Q_UNUSED(decl);
 }
 
 }

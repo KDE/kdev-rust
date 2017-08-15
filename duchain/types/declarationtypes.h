@@ -8,6 +8,7 @@
 #include <language/duchain/classdeclaration.h>
 #include <language/duchain/functiondeclaration.h>
 #include <language/duchain/classmemberdeclaration.h>
+#include <language/duchain/aliasdeclaration.h>
 
 #include "duchain/astredux.h"
 #include "duchain/nodetraits.h"
@@ -55,6 +56,12 @@ template <RSNodeKind Kind>
 struct DeclType<Kind, typename std::enable_if<Kind == StructDecl || Kind == TraitDecl || Kind == ImplDecl>::type>
 {
     typedef KDevelop::ClassDeclaration Type;
+};
+
+template <RSNodeKind Kind>
+struct DeclType<Kind, typename std::enable_if<Kind == TypeAliasDecl>::type>
+{
+    typedef KDevelop::AliasDeclaration Type;
 };
 
 // FIXME: specialize
