@@ -14,7 +14,7 @@ namespace NodeTraits
 constexpr bool hasContext(RSNodeKind kind)
 {
     return kind == Crate || kind == Module || kind == StructDecl || kind == EnumDecl
-            || kind == TraitDecl || kind == ImplDecl || kind == FunctionDecl;
+            || kind == TraitDecl || kind == ImplDecl || kind == FunctionDecl || kind == Block;
 }
 
 constexpr KDevelop::DUContext::ContextType contextType(RSNodeKind kind)
@@ -26,7 +26,8 @@ constexpr KDevelop::DUContext::ContextType contextType(RSNodeKind kind)
         :  kind == EnumDecl     ? DUContext::Enum
         :  kind == TraitDecl    ? DUContext::Class
         :  kind == ImplDecl     ? DUContext::Class
-        :  kind == FunctionDecl ? DUContext::Other // FIXME: function args should be in a Function context
+        :  kind == FunctionDecl ? DUContext::Function
+        :  kind == Block        ? DUContext::Other
         : static_cast<DUContext::ContextType>(-1);
 }
 

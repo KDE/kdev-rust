@@ -18,6 +18,7 @@ enum RSNodeKind
     VarDecl,
     Path,
     PathSegment,
+    Block,
     Unexposed
 };
 
