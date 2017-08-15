@@ -8,7 +8,7 @@ RustPath::RustPath(RustNode *node)
     RustString name = RustString(node_get_spelling_name(node->data()));
 
     if (*name == nullptr) {
-        value = "unknown";
+        value = QString();
     } else {
         value = QString::fromUtf8(*name);
     }
