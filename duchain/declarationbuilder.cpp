@@ -63,18 +63,15 @@ Declaration *DeclarationBuilder::createDeclaration(RustNode *node, RustPath *nam
 {
     auto range = editorFindSpellingRange(node, name->value);
 
-    Declaration *decl = openDeclaration<typename DeclType<Kind>::Type>(Identifier(name->value), range,
-                                                                       hasContext ? DeclarationIsDefinition : NoFlags);
-    auto type = createType<Kind>(node);
-    openType(type);
-
-    if (Kind == TypeAliasDecl) {
-        decl->setIsTypeAlias(true);
-    }
+    typename DeclType<Kind>::Type *decl = openDeclaration<typename DeclType<Kind>::Type>(Identifier(name->value), range,
+                                                                                         hasContext ? DeclarationIsDefinition : NoFlags);
 
     if (NodeTraits::isTypeDeclaration(Kind)) {
         decl->setKind(Declaration::Type);
     }
+
+    auto type = createType<Kind>(node);
+    openType(type);
 
     setDeclData<Kind>(decl);
     setType<Kind>(decl, type.data());
@@ -148,7 +145,8 @@ void DeclarationBuilder::setDeclData(Declaration *decl)
 template<RSNodeKind Kind, EnableIf<Kind == TypeAliasDecl>>
 void DeclarationBuilder::setDeclData(AliasDeclaration *decl)
 {
-    decl->setKind(Declaration::Alias);
+    decl->setIsTypeAlias(true);
+    decl->setKind(Declaration::Type);
 }
 
 template<RSNodeKind Kind, EnableIf<Kind != VarDecl && Kind != Module>>
