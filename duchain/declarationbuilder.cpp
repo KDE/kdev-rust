@@ -96,7 +96,7 @@ template <RSNodeKind Kind, EnableIf<!NodeTraits::isTypeDeclaration(Kind) && Kind
 AbstractType::Ptr DeclarationBuilder::createType(RustNode *node)
 {
     Q_UNUSED(node);
-    return AbstractType::Ptr(nullptr);
+    return AbstractType::Ptr(new IntegralType(IntegralType::TypeMixed));
 }
 
 template <RSNodeKind Kind>
