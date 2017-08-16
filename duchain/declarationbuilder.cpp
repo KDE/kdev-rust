@@ -26,8 +26,6 @@ RSVisitResult DeclarationBuilder::visitNode(RustNode *node, RustNode *parent)
         return buildDeclaration<EnumDecl>(node, parent);
     case FunctionDecl:
         return buildDeclaration<FunctionDecl>(node, parent);
-    case ImplDecl:
-        return buildDeclaration<ImplDecl>(node, parent);
     case TraitDecl:
         return buildDeclaration<TraitDecl>(node, parent);
     case TypeAliasDecl:
