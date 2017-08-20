@@ -135,8 +135,6 @@ void ParseJob::run(ThreadWeaver::JobPointer self, ThreadWeaver::Thread *thread)
         if (abortRequested()) {
             return;
         }
-
-        highlightDUChain();
     } else {
         qCDebug(KDEV_RUST) << "Parsing failed for: " << document().toUrl();
 
@@ -165,6 +163,16 @@ void ParseJob::run(ThreadWeaver::JobPointer self, ThreadWeaver::Thread *thread)
         context->setAst(IAstContainer::Ptr(session.data()));
     }
 
+    {
+        DUChainWriteLocker lock;
+        context->setFeatures(minimumFeatures());
+        ParsingEnvironmentFilePointer file = context->parsingEnvironmentFile();
+        Q_ASSERT(file);
+        file->setModificationRevision(contents().modification);
+        DUChain::self()->updateContextEnvironment(context->topContext(), file.data());
+    }
+
+    highlightDUChain();
     DUChain::self()->emitUpdateReady(document(), duChain());
     qCDebug(KDEV_RUST) << "Parse job finished for: " << document().toUrl();
 }
