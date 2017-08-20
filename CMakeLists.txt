@@ -29,45 +29,23 @@ find_package(Qt5 REQUIRED Core Widgets Test)
 find_package(KF5 REQUIRED COMPONENTS ItemModels ThreadWeaver TextEditor I18n)
 find_package(KDevPlatform ${KDEVPLATFORM_VERSION} REQUIRED)
 
-find_package(ASTRedux MODULE)
-set_package_properties(ASTRedux PROPERTIES TYPE REQUIRED)
-
 if (CMAKE_CXX_COMPILER_ID MATCHES "Clang")
     set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wdocumentation")
 endif()
 
-add_definitions( -DTRANSLATION_DOMAIN=\"kdevrust\" )
+add_definitions(-DTRANSLATION_DOMAIN=\"kdevrust\")
 
 enable_testing()
-
-#add_subdirectory(parser)
-#add_subdirectory(duchain)
-#add_subdirectory(codecompletion)
 
 include_directories(
     ${CMAKE_CURRENT_BINARY_DIR}
     ${CMAKE_CURRENT_SOURCE_DIR}
-#    ${CMAKE_CURRENT_SOURCE_DIR}/duchain
-#    ${CMAKE_CURRENT_SOURCE_DIR}/parser
-#    ${CMAKE_CURRENT_BINARY_DIR}/parser
 )
 
 set(kdevrustlanguagesupport_PART_SRCS
     rustlanguagesupport.cpp
     rustparsejob.cpp
     rusthighlighting.cpp
-    duchain/contextbuilder.cpp
-    duchain/declarationbuilder.cpp
-    duchain/usebuilder.cpp
-    duchain/rustnode.cpp
-    duchain/rustducontext.cpp
-    duchain/parsesession.cpp
-    duchain/astredux.h
-    duchain/nodetraits.h
-    codecompletion/completionmodel.cpp
-    codecompletion/completionworker.cpp
-    codecompletion/completioncontext.cpp
-#    rustdebug.cpp
 )
 
 ecm_qt_declare_logging_category(kdevrustlanguagesupport_PART_SRCS
@@ -75,6 +53,9 @@ ecm_qt_declare_logging_category(kdevrustlanguagesupport_PART_SRCS
     IDENTIFIER KDEV_RUST
     CATEGORY_NAME "kdevelop.languages.rust"
 )
+
+add_subdirectory(duchain)
+add_subdirectory(codecompletion)
 
 kdevplatform_add_plugin(kdevrustlanguagesupport JSON kdevrustsupport.json
     SOURCES ${kdevrustlanguagesupport_PART_SRCS}
@@ -85,10 +66,8 @@ target_link_libraries(kdevrustlanguagesupport
     KDev::Language
     KF5::ThreadWeaver
     KF5::TextEditor
- #   kdevrustparser
- #   kdevrustduchain
- #   kdevrustcompletion
-    ${ASTRedux_LIBRARY}
+    kdevrustduchain
+    kdevrustcompletion
 )
 
 install(FILES kdevrustsupport.categories DESTINATION ${KDE_INSTALL_CONFDIR})
