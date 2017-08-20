@@ -117,6 +117,10 @@ void ParseJob::run(ThreadWeaver::JobPointer self, ThreadWeaver::Thread *thread)
     session.parse();
     RustOwnedNode crateNode = RustOwnedNode(node_from_crate(session.crate()));
 
+    if (abortRequested()) {
+        return;
+    }
+
     ReferencedTopDUContext context;
 
     if (crateNode.data() != nullptr) {
@@ -128,13 +132,13 @@ void ParseJob::run(ThreadWeaver::JobPointer self, ThreadWeaver::Thread *thread)
 
         setDuChain(context);
 
-        UseBuilder uses(document());
-        uses.setParseSession(&session);
-        uses.buildUses(&node);
-
         if (abortRequested()) {
             return;
         }
+
+        UseBuilder uses(document());
+        uses.setParseSession(&session);
+        uses.buildUses(&node);
     } else {
         qCDebug(KDEV_RUST) << "Parsing failed for: " << document().toUrl();
 
@@ -154,6 +158,10 @@ void ParseJob::run(ThreadWeaver::JobPointer self, ThreadWeaver::Thread *thread)
         }
 
         setDuChain(context);
+    }
+
+    if (abortRequested()) {
+        return;
     }
 
     // TODO: add problems exposed by libsyntax
