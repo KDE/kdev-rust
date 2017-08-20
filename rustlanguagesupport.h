@@ -31,6 +31,8 @@ public:
 
     KDevelop::ICodeHighlighting *codeHighlighting() const override;
 
+    KDevelop::SourceFormatterItemList sourceFormatterItems() const override;
+
 private:
     Highlighting *m_highlighting;
 };

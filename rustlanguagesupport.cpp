@@ -13,6 +13,7 @@
 #include <KPluginLoader>
 
 #include <QReadWriteLock>
+#include <QStandardPaths>
 
 #include "rustparsejob.h"
 #include "codecompletion/completionmodel.h"
@@ -55,6 +56,26 @@ KDevelop::ParseJob *LanguageSupport::createParseJob(const KDevelop::IndexedStrin
 ICodeHighlighting *LanguageSupport::codeHighlighting() const
 {
     return m_highlighting;
+}
+
+SourceFormatterItemList LanguageSupport::sourceFormatterItems() const
+{
+    SourceFormatterStyle rustFormatter("rustfmt");
+    rustFormatter.setCaption("rustfmt");
+    rustFormatter.setDescription(i18n("Format source with rustfmt."));
+    rustFormatter.setMimeTypes(SourceFormatterStyle::MimeList {
+        SourceFormatterStyle::MimeHighlightPair { "text/rust", "Rust" },
+        SourceFormatterStyle::MimeHighlightPair { "text/x-rust", "Rust" }
+    });
+
+    QString rustfmtPath = QStandardPaths::findExecutable("rustfmt");
+    if (rustfmtPath.isEmpty()) {
+        qCDebug(KDEV_RUST) << "Could not find the rustfmt executable";
+        rustfmtPath = "/usr/bin/rustfmt";
+    }
+    rustFormatter.setContent(rustfmtPath + " --skip-children $TMPFILE");
+
+    return SourceFormatterItemList { SourceFormatterStyleItem { "customscript", rustFormatter } };
 }
 
 }
