@@ -10,6 +10,8 @@
 namespace Rust
 {
 
+using namespace KDevelop;
+
 UseBuilder::UseBuilder(const KDevelop::IndexedString &document)
     : document(document)
 {
@@ -17,47 +19,72 @@ UseBuilder::UseBuilder(const KDevelop::IndexedString &document)
 
 RSVisitResult UseBuilder::visitNode(RustNode *node, RustNode *parent)
 {
-    using namespace KDevelop;
     RSNodeKind kind = node_get_kind(node->data());
     RSNodeKind parentKind = node_get_kind(parent->data());
 
-    if (parentKind == Path && kind == PathSegment) {
-        RustPath segment(node);
-        RustPath path(parent);
-        QualifiedIdentifier qualifiedPath = identifierForNode(&path);
-        IndexedIdentifier pathSegment = IndexedIdentifier(Identifier(segment.value));
-
-        // eh, this feels way too much like a hack
-        while (qualifiedPath.last() != pathSegment) {
-            qualifiedPath.pop();
-        }
-
-        RangeInRevision useRange = editorFindRange(node, node);
-        DUContext *context = topContext()->findContextAt(useRange.start);
-        QList<Declaration *> declarations = context->findDeclarations(qualifiedPath);
-
-//        qCDebug(KDEV_RUST) << "USE:" << segment.value << "; spelling range: ("
-//                           << useRange.start.line + 1 << ":" << useRange.start.column << "-"
-//                           << useRange.end.line + 1 << ":" << useRange.end.column << "); context:"
-//                           << context->localScopeIdentifier()
-//                           << context->range();
-
-
-        if (declarations.isEmpty() || !declarations.first()) {
-            ProblemPointer p = ProblemPointer(new Problem());
-            p->setFinalLocation(DocumentRange(document, useRange.castToSimpleRange()));
-            p->setSource(IProblem::SemanticAnalysis);
-            p->setSeverity(IProblem::Hint);
-            p->setDescription(i18n("Undefined %1", path.value));
-
-            DUChainWriteLocker lock(DUChain::lock());
-            topContext()->addProblem(p);
-        } else if (declarations.first()->range() != useRange) {
-            UseBuilderBase::newUse(node, useRange, DeclarationPointer(declarations.first()));
-        }
+    if (kind == Path) {
+        visitPath(node, parent);
+    } else if (parentKind == Path && kind == PathSegment) {
+        visitPathSegment(node, parent);
     }
 
     return ContextBuilder::visitNode(node, parent);
+}
+
+void UseBuilder::visitPath(RustNode *node, RustNode *parent)
+{
+    RustPath path(node);
+    fullPath = identifierForNode(&path);
+    currentPath.clear();
+}
+
+void UseBuilder::visitPathSegment(RustNode *node, RustNode *parent)
+{
+    RustPath segment(node);
+    IndexedIdentifier pathSegment = IndexedIdentifier(Identifier(segment.value));
+
+    currentPath.push(pathSegment);
+
+    DUContext::SearchFlags flags = DUContext::NoSearchFlags;
+
+    if (fullPath.isQualified()) {
+        flags = DUContext::NoFiltering;
+    }
+
+    RangeInRevision useRange = editorFindRange(node, node);
+    DUContext *context = topContext()->findContextAt(useRange.start);
+    QList<Declaration *> declarations = context->findDeclarations(currentPath,
+                                                                  CursorInRevision::invalid(),
+                                                                  AbstractType::Ptr(),
+                                                                  nullptr,
+                                                                  flags);
+
+    if (declarations.isEmpty() || !declarations.first()) {
+        ProblemPointer p = ProblemPointer(new Problem());
+        p->setFinalLocation(DocumentRange(document, useRange.castToSimpleRange()));
+        p->setSource(IProblem::SemanticAnalysis);
+        p->setSeverity(IProblem::Hint);
+        p->setDescription(i18n("Undefined %1", fullPath.toString()));
+
+        DUChainWriteLocker lock(DUChain::lock());
+        topContext()->addProblem(p);
+    } else {
+        for (Declaration *declaration : declarations) {
+            if (fullPath.isQualified() && currentPath != fullPath) {
+                // We are dealing with a container-like path, ignore functions and variables
+                if (!declaration->internalContext()
+                        || declaration->internalContext()->type() == DUContext::Other
+                        || declaration->internalContext()->type() == DUContext::Function) {
+                    continue;
+                }
+            }
+
+            if (declaration->range() != useRange) {
+                UseBuilderBase::newUse(node, useRange, DeclarationPointer(declaration));
+                break;
+            }
+        }
+    }
 }
 
 }

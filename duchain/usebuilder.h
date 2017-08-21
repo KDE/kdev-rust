@@ -23,6 +23,12 @@ public:
     RSVisitResult visitNode(RustNode *node, RustNode *parent) override;
 
 private:
+    void visitPath(RustNode *node, RustNode *parent);
+    void visitPathSegment(RustNode *node, RustNode *parent);
+
+    KDevelop::QualifiedIdentifier fullPath;
+    KDevelop::QualifiedIdentifier currentPath;
+
     KDevelop::IndexedString document;
 };
 
