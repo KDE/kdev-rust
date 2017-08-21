@@ -55,6 +55,7 @@ RSVisitResult ContextBuilder::visitNode(RustNode *node, RustNode *parent)
     BUILD_CONTEXT_FOR(Path);
     BUILD_CONTEXT_FOR(PathSegment);
     BUILD_CONTEXT_FOR(Block);
+    BUILD_CONTEXT_FOR(Arm);
     BUILD_CONTEXT_FOR(Unexposed);
     }
 #undef BUILD_CONTEXT_FOR

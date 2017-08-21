@@ -19,6 +19,7 @@ enum RSNodeKind
     Path,
     PathSegment,
     Block,
+    Arm,
     Unexposed
 };
 
