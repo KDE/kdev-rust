@@ -14,6 +14,12 @@ find_package(ASTRedux MODULE REQUIRED)
 
 link_directories(${RUST_LIBRARY_DIR})
 
+ecm_qt_declare_logging_category(kdevrustduchain_SRC
+    HEADER rustdebug.h
+    IDENTIFIER KDEV_RUST
+    CATEGORY_NAME "kdevelop.languages.rust.duchain"
+)
+
 add_library(kdevrustduchain SHARED ${kdevrustduchain_SRC})
 
 generate_export_header(kdevrustduchain BASE_NAME kdevrustduchain EXPORT_MACRO_NAME KDEVRUSTDUCHAIN_EXPORT)
