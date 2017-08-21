@@ -14,14 +14,17 @@ find_package(ASTRedux MODULE REQUIRED)
 
 link_directories(${RUST_LIBRARY_DIR})
 
-add_library(kdevrustduchain STATIC ${kdevrustduchain_SRC})
+add_library(kdevrustduchain SHARED ${kdevrustduchain_SRC})
 
-target_link_libraries(kdevrustduchain
+generate_export_header(kdevrustduchain BASE_NAME kdevrustduchain EXPORT_MACRO_NAME KDEVRUSTDUCHAIN_EXPORT)
+target_link_libraries(kdevrustduchain LINK_PRIVATE
     KDev::Interfaces
     KDev::Language
-    KF5::ThreadWeaver
-    KF5::TextEditor
+
+    LINK_PUBLIC
     ${ASTRedux_LIBRARY}
 )
+
+install(TARGETS kdevrustduchain DESTINATION ${INSTALL_TARGETS_DEFAULT_ARGS})
 
 add_subdirectory(tests)

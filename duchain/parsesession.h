@@ -10,10 +10,12 @@
 #include "astredux.h"
 #include "rustnode.h"
 
+#include "kdevrustduchain_export.h"
+
 namespace Rust
 {
 
-class ParseSessionData : public KDevelop::IAstContainer
+class KDEVRUSTDUCHAIN_EXPORT ParseSessionData : public KDevelop::IAstContainer
 {
 public:
     typedef QExplicitlySharedDataPointer<ParseSessionData> Ptr;
@@ -34,7 +36,7 @@ private:
     QMap<unsigned int, KDevelop::DUContext *> m_nodeContextMap;
 };
 
-class ParseSession
+class KDEVRUSTDUCHAIN_EXPORT ParseSession
 {
 public:
     explicit ParseSession(const ParseSessionData::Ptr &data);

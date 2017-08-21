@@ -7,12 +7,14 @@
 #include "contextbuilder.h"
 #include "rustnode.h"
 
+#include "kdevrustduchain_export.h"
+
 namespace Rust
 {
 
 using UseBuilderBase = KDevelop::AbstractUseBuilder<RustNode, RustPath, ContextBuilder>;
 
-class UseBuilder : public UseBuilderBase
+class KDEVRUSTDUCHAIN_EXPORT UseBuilder : public UseBuilderBase
 {
 public:
     UseBuilder(const KDevelop::IndexedString &document);

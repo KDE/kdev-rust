@@ -5,10 +5,12 @@
 
 #include <language/codecompletion/codecompletioncontext.h>
 
+#include <kdevrustcompletion_export.h>
+
 namespace Rust
 {
 
-class CompletionContext : public KDevelop::CodeCompletionContext
+class KDEVRUSTCOMPLETION_EXPORT CompletionContext : public KDevelop::CodeCompletionContext
 {
 public:
     CompletionContext(KDevelop::DUContextPointer context,

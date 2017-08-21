@@ -6,12 +6,14 @@
 #include "rustnode.h"
 #include "parsesession.h"
 
+#include "kdevrustduchain_export.h"
+
 namespace Rust
 {
 
 using ContextBuilderBase = KDevelop::AbstractContextBuilder<RustNode, RustPath>;
 
-class ContextBuilder : public ContextBuilderBase
+class KDEVRUSTDUCHAIN_EXPORT ContextBuilder : public ContextBuilderBase
 {
 public:
     ContextBuilder() = default;

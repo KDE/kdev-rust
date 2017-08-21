@@ -13,6 +13,8 @@
 #include "duchain/rustnode.h"
 #include "duchain/astredux.h"
 
+#include "kdevrustduchain_export.h"
+
 namespace Rust
 {
 
@@ -24,7 +26,7 @@ constexpr detail::enabler dummy = {};
 template <bool Condition>
 using EnableIf = typename std::enable_if<Condition, detail::enabler>::type;
 
-class DeclarationBuilder : public DeclarationBuilderBase
+class KDEVRUSTDUCHAIN_EXPORT DeclarationBuilder : public DeclarationBuilderBase
 {
 public:
     DeclarationBuilder() = default;

@@ -3,10 +3,12 @@
 
 #include <language/codecompletion/codecompletionmodel.h>
 
+#include "kdevrustcompletion_export.h"
+
 namespace Rust
 {
 
-class CompletionModel : public KDevelop::CodeCompletionModel
+class KDEVRUSTCOMPLETION_EXPORT CompletionModel : public KDevelop::CodeCompletionModel
 {
     Q_OBJECT
 public:

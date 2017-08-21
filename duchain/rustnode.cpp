@@ -24,6 +24,10 @@ RustNode::RustNode(RustOwnedNode &node)
 {
 }
 
+RustNode::~RustNode()
+{
+}
+
 template<typename RustObjectType, void (*RustDestructor)(RustObjectType *)>
 RustAllocatedObject<RustObjectType, RustDestructor>::RustAllocatedObject(RustObjectType *object)
     : object(object)
@@ -48,10 +52,5 @@ RustObjectType *RustAllocatedObject<RustObjectType, RustDestructor>::operator *(
 {
     return object;
 }
-
-template class RustAllocatedObject<const char, destroy_string>;
-template class RustAllocatedObject<RSCrate, destroy_crate>;
-template class RustAllocatedObject<RSNode, destroy_node>;
-template class RustAllocatedObject<RSNode, noop_destructor>;
 
 }

@@ -5,11 +5,13 @@
 
 #include "astredux.h"
 
+#include "kdevrustduchain_export.h"
+
 namespace Rust
 {
 
 template <typename RustObjectType, void (*RustDestructor)(RustObjectType *)>
-class RustAllocatedObject
+class KDEVRUSTDUCHAIN_EXPORT RustAllocatedObject
 {
 public:
     RustAllocatedObject(RustObjectType *object);
@@ -22,7 +24,7 @@ private:
     RustObjectType *object;
 };
 
-class RustString : public RustAllocatedObject<const char, destroy_string>
+class KDEVRUSTDUCHAIN_EXPORT RustString : public RustAllocatedObject<const char, destroy_string>
 {
 public:
     RustString(const char *str)
@@ -41,20 +43,26 @@ template <typename T> void noop_destructor(T *) {}
 using RustCrate = RustAllocatedObject<RSCrate, destroy_crate>;
 using RustOwnedNode = RustAllocatedObject<RSNode, destroy_node>;
 
-class RustNode : public RustAllocatedObject<RSNode, noop_destructor>
+class KDEVRUSTDUCHAIN_EXPORT RustNode : public RustAllocatedObject<RSNode, noop_destructor>
 {
 public:
     RustNode(RSNode *node);
     RustNode(RustOwnedNode &node);
+    ~RustNode();
 };
 
-class RustPath
+class KDEVRUSTDUCHAIN_EXPORT RustPath
 {
 public:
     explicit RustPath(RustNode *node);
 
     QString value;
 };
+
+template class KDEVRUSTDUCHAIN_EXPORT RustAllocatedObject<const char, destroy_string>;
+template class KDEVRUSTDUCHAIN_EXPORT RustAllocatedObject<RSCrate, destroy_crate>;
+template class KDEVRUSTDUCHAIN_EXPORT RustAllocatedObject<RSNode, destroy_node>;
+template class KDEVRUSTDUCHAIN_EXPORT RustAllocatedObject<RSNode, noop_destructor>;
 
 }
 

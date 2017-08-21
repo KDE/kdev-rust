@@ -5,13 +5,15 @@
 #include <language/duchain/ducontext.h>
 #include <language/duchain/topducontext.h>
 
+#include "kdevrustduchain_export.h"
+
 namespace Rust
 {
 
 using namespace KDevelop;
 
 template<class BaseContext, int IdentityT>
-class RustDUContext : public BaseContext
+class KDEVRUSTDUCHAIN_EXPORT RustDUContext : public BaseContext
 {
 public:
     template<class Data>
