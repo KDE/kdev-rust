@@ -24,4 +24,4 @@ target_link_libraries(kdevrustduchain
     ${ASTRedux_LIBRARY}
 )
 
-#add_subdirectory(tests)
+add_subdirectory(tests)
