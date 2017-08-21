@@ -9,7 +9,10 @@ set(kdevrustduchain_SRC
     nodetraits.h
 )
 
+find_package(Rust MODULE REQUIRED)
 find_package(ASTRedux MODULE REQUIRED)
+
+link_directories(${RUST_LIBRARY_DIR})
 
 add_library(kdevrustduchain STATIC ${kdevrustduchain_SRC})
 
