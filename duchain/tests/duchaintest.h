@@ -10,6 +10,8 @@ private slots:
     void initTestCase();
     void sanityCheck();
     void cleanupTestCase();
+    void testPatternBindings();
+    void testPatternBindings_data();
 };
 
 #endif // DUCHAINTEST_H
