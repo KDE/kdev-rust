@@ -24,24 +24,11 @@ private:
     RustObjectType *object;
 };
 
-class KDEVRUSTDUCHAIN_EXPORT RustString : public RustAllocatedObject<const char, destroy_string>
-{
-public:
-    RustString(const char *str)
-        : RustAllocatedObject(str)
-    {
-    }
-
-    operator const char *()
-    {
-        return data();
-    }
-};
-
 template <typename T> void noop_destructor(T *) {}
 
 using RustCrate = RustAllocatedObject<RSCrate, destroy_crate>;
 using RustOwnedNode = RustAllocatedObject<RSNode, destroy_node>;
+using RustString = RustAllocatedObject<const char, destroy_string>;
 
 class KDEVRUSTDUCHAIN_EXPORT RustNode : public RustAllocatedObject<RSNode, noop_destructor>
 {
