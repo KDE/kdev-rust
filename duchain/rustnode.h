@@ -29,6 +29,8 @@ template <typename T> void noop_destructor(T *) {}
 using RustCrate = RustAllocatedObject<RSCrate, destroy_crate>;
 using RustOwnedNode = RustAllocatedObject<RSNode, destroy_node>;
 using RustString = RustAllocatedObject<const char, destroy_string>;
+using RustDiagnostic = RustAllocatedObject<RSDiagnostic, destroy_diagnostic>;
+using RustDiagnosticIterator = RustAllocatedObject<RSDiagnosticIterator, destroy_diagnostic_iterator>;
 
 class KDEVRUSTDUCHAIN_EXPORT RustNode : public RustAllocatedObject<RSNode, noop_destructor>
 {
@@ -49,6 +51,8 @@ public:
 template class KDEVRUSTDUCHAIN_EXPORT RustAllocatedObject<const char, destroy_string>;
 template class KDEVRUSTDUCHAIN_EXPORT RustAllocatedObject<RSCrate, destroy_crate>;
 template class KDEVRUSTDUCHAIN_EXPORT RustAllocatedObject<RSNode, destroy_node>;
+template class KDEVRUSTDUCHAIN_EXPORT RustAllocatedObject<RSDiagnostic, destroy_diagnostic>;
+template class KDEVRUSTDUCHAIN_EXPORT RustAllocatedObject<RSDiagnosticIterator, destroy_diagnostic_iterator>;
 template class KDEVRUSTDUCHAIN_EXPORT RustAllocatedObject<RSNode, noop_destructor>;
 
 }

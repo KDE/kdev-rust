@@ -23,6 +23,15 @@ enum RSNodeKind
     Unexposed
 };
 
+enum RSDiagnosticLevel
+{
+    Info,
+    Note,
+    Warning,
+    Error,
+    Fatal
+};
+
 enum RSVisitResult
 {
     Break,
@@ -44,6 +53,8 @@ struct RSRange
 
 struct RSCrate;
 struct RSNode;
+struct RSDiagnostic;
+struct RSDiagnosticIterator;
 
 typedef RSVisitResult (*CallbackFn)(RSNode *node, RSNode *parent, void *data);
 
@@ -63,6 +74,16 @@ RSRange node_get_spelling_range(RSNode *node);
 RSRange node_get_extent(RSNode *node);
 
 void destroy_string(const char *str);
+
+RSDiagnosticIterator *crate_get_diagnostics(RSCrate *crate);
+void destroy_diagnostic_iterator(RSDiagnosticIterator *iterator);
+
+RSDiagnostic *diagnostics_next(RSDiagnosticIterator *iterator);
+void destroy_diagnostic(RSDiagnostic *diagnostic);
+
+RSDiagnosticLevel diagnostic_get_level(RSDiagnostic *diagnostic);
+const char *diagnostic_get_message(RSDiagnostic *diagnostic);
+RSRange diagnostic_get_primary_range(RSDiagnostic *diagnostic);
 
 void visit_children(RSNode *node, CallbackFn callback, void *data);
 
