@@ -6,6 +6,7 @@
 #include <language/interfaces/ilanguagesupport.h>
 #include <language/backgroundparser/backgroundparser.h>
 #include <language/backgroundparser/urlparselock.h>
+#include <language/editor/documentrange.h>
 #include <language/duchain/duchainlock.h>
 #include <language/duchain/duchainutils.h>
 #include <language/duchain/duchaindumper.h>
@@ -164,7 +165,28 @@ void ParseJob::run(ThreadWeaver::JobPointer self, ThreadWeaver::Thread *thread)
         return;
     }
 
-    // TODO: add problems exposed by libsyntax
+    RustDiagnosticIterator diagnostics(crate_get_diagnostics(session.crate()));
+    RSDiagnostic *d = nullptr;
+    while ((d = diagnostics_next(diagnostics.data())) != nullptr) {
+        RustDiagnostic diagnostic(d);
+        RSDiagnosticLevel level = diagnostic_get_level(diagnostic.data());
+        RustString message = diagnostic_get_message(diagnostic.data());
+        RSRange range = diagnostic_get_primary_range(diagnostic.data());
+
+        IProblem::Severity severity = (level == Fatal || level == Error) ? IProblem::Error
+                                    : (level == Info || level == Note)   ? IProblem::Hint
+                                                                         : IProblem::Warning;
+
+        ProblemPointer p = ProblemPointer(new Problem());
+        p->setFinalLocation(DocumentRange(document(), KTextEditor::Range(range.start.line - 1, range.start.column,
+                                                                         range.end.line - 1, range.end.column)));
+        p->setSource(IProblem::Parser);
+        p->setSeverity(severity);
+        p->setDescription(QString::fromUtf8(message.data()));
+
+        DUChainWriteLocker lock(DUChain::lock());
+        context->addProblem(p);
+    }
 
     if (minimumFeatures() & TopDUContext::AST) {
         DUChainWriteLocker lock;
