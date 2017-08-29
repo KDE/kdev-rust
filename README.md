@@ -10,13 +10,22 @@ This package is a WIP to provide language support for Rust.
 
 ```
 mkdir build
+cd build
 cmake ..
 make
 ```
 
-### Dependencies
+## Running
 
-#### Manually building the ast-redux Rust library
+```
+export LD_LIBRARY_PATH=`rustc --print sysroot`/lib
+```
+
+Then run KDevelop.
+
+## Dependencies
+
+### Manually building the ast-redux Rust library
 
 kdev-rust automatically downloads and builds ast-redux. If you would like to
 build it yourself for debugging purposes or otherwise, do the following:
