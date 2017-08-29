@@ -10,7 +10,7 @@ set(kdevrustduchain_SRC
 )
 
 find_package(Rust MODULE REQUIRED)
-find_package(ASTRedux MODULE REQUIRED)
+find_package(ASTRedux MODULE)
 
 link_directories(${RUST_LIBRARY_DIR})
 
@@ -21,6 +21,25 @@ ecm_qt_declare_logging_category(kdevrustduchain_SRC
 )
 
 add_library(kdevrustduchain SHARED ${kdevrustduchain_SRC})
+
+if(NOT ${ASTRedux_FOUND})
+    include(ExternalProject)
+    ExternalProject_Add(ASTRedux
+        GIT_REPOSITORY "git://anongit.kde.org/scratch/egospodinova/ast-redux"
+        GIT_TAG "master"
+        PREFIX "${CMAKE_CURRENT_BINARY_DIR}/3rdparty"
+        SOURCE_DIR "${CMAKE_CURRENT_BINARY_DIR}/3rdparty/src/ast-redux"
+        INSTALL_DIR "${CMAKE_CURRENT_BINARY_DIR}/3rdparty/src/ast-redux/target/release"
+        BUILD_IN_SOURCE 1
+        CONFIGURE_COMMAND ""
+        BUILD_COMMAND cargo build --release
+        BUILD_BYPRODUCTS "${CMAKE_CURRENT_BINARY_DIR}/3rdparty/src/ast-redux/target/release/libast_redux.so"
+        INSTALL_COMMAND "")
+
+    ExternalProject_Get_Property(ASTRedux BUILD_BYPRODUCTS)
+    set(ASTRedux_LIBRARY ${BUILD_BYPRODUCTS})
+    add_dependencies(kdevrustduchain ASTRedux)
+endif()
 
 generate_export_header(kdevrustduchain BASE_NAME kdevrustduchain EXPORT_MACRO_NAME KDEVRUSTDUCHAIN_EXPORT)
 target_link_libraries(kdevrustduchain LINK_PRIVATE
