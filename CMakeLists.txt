@@ -54,6 +54,7 @@ ecm_qt_declare_logging_category(kdevrustlanguagesupport_PART_SRCS
     CATEGORY_NAME "kdevelop.languages.rust"
 )
 
+add_subdirectory(app_templates)
 add_subdirectory(duchain)
 add_subdirectory(codecompletion)
 
