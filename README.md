@@ -32,6 +32,7 @@ build it yourself for debugging purposes or otherwise, do the following:
 
 ```
 git clone ssh://git@git.kde.org/scratch/egospodinova/ast-redux
+cd ast-redux
 cargo build
 ```
 
