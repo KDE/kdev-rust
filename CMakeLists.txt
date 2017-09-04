@@ -25,8 +25,10 @@ include(FeatureSummary)
 include(KDEInstallDirs)
 include(KDECMakeSettings)
 
-find_package(Qt5 REQUIRED Core Widgets Test)
-find_package(KF5 REQUIRED COMPONENTS ItemModels ThreadWeaver TextEditor I18n)
+set(QT_MIN_VERSION "5.4.0")
+find_package(Qt5 ${QT_MIN_VERSION} CONFIG REQUIRED Core Widgets Test)
+set(KF5_DEP_VERSION "5.15.0")
+find_package(KF5 ${KF5_DEP_VERSION} REQUIRED COMPONENTS ItemModels ThreadWeaver TextEditor I18n)
 find_package(KDevPlatform ${KDEVPLATFORM_VERSION} REQUIRED)
 
 if (CMAKE_CXX_COMPILER_ID MATCHES "Clang")
