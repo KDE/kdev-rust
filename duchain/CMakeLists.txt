@@ -23,6 +23,7 @@ ecm_qt_declare_logging_category(kdevrustduchain_SRC
 add_library(kdevrustduchain SHARED ${kdevrustduchain_SRC})
 
 if(NOT ${ASTRedux_FOUND})
+    message(STATUS "Enabling build of external project: ast-redux")
     include(ExternalProject)
     ExternalProject_Add(ASTRedux
         GIT_REPOSITORY "git://anongit.kde.org/scratch/egospodinova/ast-redux"
