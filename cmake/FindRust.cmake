@@ -20,7 +20,11 @@ mark_as_advanced(RUSTC_TARGET_TRIPLE)
 mark_as_advanced(RUSTC_RELEASE)
 
 if(NOT ${RUSTC_RELEASE} MATCHES "nightly")
-    message(FATAL_ERROR "A nightly Rust compiler is required to build kdev-rust")
+    message(FATAL_ERROR "A nightly Rust compiler is required to build kdev-rust.
+  Please read:
+    https://doc.rust-lang.org/1.5.0/book/nightly-rust.html
+  Or just run:
+    curl -s https://static.rust-lang.org/rustup.sh | sh -s -- --channel=nightly")
 endif()
 
 execute_process(COMMAND ${RUSTC_EXECUTABLE} --print sysroot
