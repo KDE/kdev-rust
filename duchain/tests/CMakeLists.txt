@@ -1,7 +1,3 @@
-include_directories(
-    ${CMAKE_CURRENT_BINARY_DIR}
-)
-
 find_package(ASTRedux MODULE)
 set_package_properties(ASTRedux PROPERTIES TYPE REQUIRED)
 
