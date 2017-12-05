@@ -37,6 +37,15 @@ endif()
 
 add_definitions(-DTRANSLATION_DOMAIN=\"kdevrust\")
 
+add_definitions(
+    -DQT_DEPRECATED_WARNINGS
+    -DQT_DISABLE_DEPRECATED_BEFORE=0x050500
+    -DQT_NO_SIGNALS_SLOTS_KEYWORDS
+    -DQT_NO_URL_CAST_FROM_STRING
+    -DQT_STRICT_ITERATORS
+    -DQT_USE_QSTRINGBUILDER
+)
+
 set(kdevrustlanguagesupport_PART_SRCS
     rustlanguagesupport.cpp
     rustparsejob.cpp
