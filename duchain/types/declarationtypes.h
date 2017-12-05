@@ -10,8 +10,8 @@
 #include <language/duchain/classmemberdeclaration.h>
 #include <language/duchain/aliasdeclaration.h>
 
-#include "duchain/astredux.h"
-#include "duchain/nodetraits.h"
+#include "astredux.h"
+#include "nodetraits.h"
 
 namespace Rust
 {

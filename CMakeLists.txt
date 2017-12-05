@@ -37,11 +37,6 @@ endif()
 
 add_definitions(-DTRANSLATION_DOMAIN=\"kdevrust\")
 
-include_directories(
-    ${CMAKE_CURRENT_BINARY_DIR}
-    ${CMAKE_CURRENT_SOURCE_DIR}
-)
-
 set(kdevrustlanguagesupport_PART_SRCS
     rustlanguagesupport.cpp
     rustparsejob.cpp

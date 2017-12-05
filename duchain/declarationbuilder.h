@@ -7,11 +7,11 @@
 #include <language/duchain/builders/abstractdeclarationbuilder.h>
 #include <language/duchain/types/alltypes.h>
 
-#include "duchain/types/declarationtypes.h"
-#include "duchain/contextbuilder.h"
-#include "duchain/nodetraits.h"
-#include "duchain/rustnode.h"
-#include "duchain/astredux.h"
+#include "types/declarationtypes.h"
+#include "contextbuilder.h"
+#include "nodetraits.h"
+#include "rustnode.h"
+#include "astredux.h"
 
 #include "kdevrustduchain_export.h"
 
