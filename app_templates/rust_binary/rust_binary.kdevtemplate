@@ -1,11 +1,7 @@
 # KDE Config File
 [General]
 Name=Rust application
-Name[en_GB]=Rust application
-Name[x-test]=xxRust applicationxx
 Comment=Simple Rust binary application
-Comment[en_GB]=Simple Rust binary application
-Comment[x-test]=xxSimple Rust binary applicationxx
 Category=Rust
 Icon=default-kdevelop
 ShowFilesAfterGeneration=src/main.rs

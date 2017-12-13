@@ -2,15 +2,12 @@
     "KPlugin": {
         "Category": "Language Support",
         "Description": "Rust Language Support",
-        "Description[x-test]": "xxRust Language Supportxx",
         "Id": "kdevrustsupport",
         "Name": "Rust Support",
-        "Name[x-test]": "xxRust Supportxx",
         "ServiceTypes": [
             "KDevelop/Plugin"
         ]
     },
-
     "X-KDevelop-Interfaces": [
         "ILanguageSupport"
     ],
