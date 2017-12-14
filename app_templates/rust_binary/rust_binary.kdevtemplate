@@ -1,7 +1,17 @@
 # KDE Config File
 [General]
 Name=Rust application
+Name[ca]=Aplicació en Rust
+Name[nl]=Rust-toepassing
+Name[pt]=Aplicação de Rust
+Name[uk]=Програма Rust
+Name[x-test]=xxRust applicationxx
 Comment=Simple Rust binary application
+Comment[ca]=Una aplicació en Rust senzilla
+Comment[nl]=Eenvoudige binaire Rust-toepassing
+Comment[pt]=Aplicação binária simples de Rust
+Comment[uk]=Проста бінарна програма Rust
+Comment[x-test]=xxSimple Rust binary applicationxx
 Category=Rust
 Icon=default-kdevelop
 ShowFilesAfterGeneration=src/main.rs
