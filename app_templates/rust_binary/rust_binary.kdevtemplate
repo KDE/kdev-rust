@@ -2,14 +2,21 @@
 [General]
 Name=Rust application
 Name[ca]=Aplicació en Rust
+Name[es]=Aplicación de Rust
 Name[nl]=Rust-toepassing
 Name[pt]=Aplicação de Rust
+Name[ru]=Программа на Rust
+Name[sk]=Aplikácia Rust
+Name[sv]=Rust-program
 Name[uk]=Програма Rust
 Name[x-test]=xxRust applicationxx
 Comment=Simple Rust binary application
 Comment[ca]=Una aplicació en Rust senzilla
+Comment[es]=Aplicación binaria de Rust sencilla
 Comment[nl]=Eenvoudige binaire Rust-toepassing
 Comment[pt]=Aplicação binária simples de Rust
+Comment[sk]=Jednoduchá binárna aplikácia Rust
+Comment[sv]=Enkelt Rust-binärprogram
 Comment[uk]=Проста бінарна програма Rust
 Comment[x-test]=xxSimple Rust binary applicationxx
 Category=Rust
