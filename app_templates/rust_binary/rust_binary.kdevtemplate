@@ -2,6 +2,7 @@
 [General]
 Name=Rust application
 Name[ca]=Aplicació en Rust
+Name[ca@valencia]=Aplicació en Rust
 Name[es]=Aplicación de Rust
 Name[nl]=Rust-toepassing
 Name[pt]=Aplicação de Rust
@@ -12,6 +13,7 @@ Name[uk]=Програма Rust
 Name[x-test]=xxRust applicationxx
 Comment=Simple Rust binary application
 Comment[ca]=Una aplicació en Rust senzilla
+Comment[ca@valencia]=Una aplicació en Rust senzilla
 Comment[es]=Aplicación binaria de Rust sencilla
 Comment[nl]=Eenvoudige binaire Rust-toepassing
 Comment[pt]=Aplicação binária simples de Rust

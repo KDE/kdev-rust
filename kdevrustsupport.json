@@ -2,6 +2,7 @@
     "KPlugin": {
         "Category": "Language Support",
         "Description": "Rust Language Support",
+        "Description[ca@valencia]": "Implementació del llenguatge Rust",
         "Description[ca]": "Implementació del llenguatge Rust",
         "Description[es]": "Implementación del lenguaje Rust",
         "Description[nl]": "Ondersteuning van de Rust-taal",
@@ -12,6 +13,7 @@
         "Description[x-test]": "xxRust Language Supportxx",
         "Id": "kdevrustsupport",
         "Name": "Rust Support",
+        "Name[ca@valencia]": "Implementació del Rust",
         "Name[ca]": "Implementació del Rust",
         "Name[es]": "Implementación de Rust",
         "Name[nl]": "Ondersteuning van Rust",

@@ -2,6 +2,7 @@
 [General]
 Name=Rust library
 Name[ca]=Biblioteca del Rust
+Name[ca@valencia]=Biblioteca del Rust
 Name[es]=Biblioteca de Rust
 Name[nl]=Rust-bibliotheek
 Name[pt]=Biblioteca de Rust
@@ -11,6 +12,7 @@ Name[uk]=Бібліотека Rust
 Name[x-test]=xxRust libraryxx
 Comment=Simple Rust library
 Comment[ca]=Biblioteca del Rust senzilla
+Comment[ca@valencia]=Biblioteca del Rust senzilla
 Comment[es]=Biblioteca de Rust sencilla
 Comment[nl]=Eenvoudige Rust-bibliotheek
 Comment[pt]=Biblioteca simples de Rust
