@@ -19,7 +19,6 @@
         "Description[x-test]": "xxRust Language Supportxx",
         "Id": "kdevrustsupport",
         "Name": "Rust Support",
-        "Name[ast]": "Sofitu pa Rust",
         "Name[ca@valencia]": "Implementació del Rust",
         "Name[ca]": "Implementació del Rust",
         "Name[cs]": "Podpora pro Rust",

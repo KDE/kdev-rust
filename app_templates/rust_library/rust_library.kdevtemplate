@@ -1,7 +1,6 @@
 # KDE Config File
 [General]
 Name=Rust library
-Name[ast]=Biblioteca en Rust
 Name[ca]=Biblioteca del Rust
 Name[ca@valencia]=Biblioteca del Rust
 Name[cs]=Knihovna Rust

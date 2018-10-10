@@ -1,7 +1,6 @@
 # KDE Config File
 [General]
 Name=Rust application
-Name[ast]=Aplicación en Rust
 Name[ca]=Aplicació en Rust
 Name[ca@valencia]=Aplicació en Rust
 Name[cs]=Aplikace Rust
