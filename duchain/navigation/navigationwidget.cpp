@@ -20,7 +20,7 @@
 namespace Rust {
 
 //NavigationWidget::NavigationWidget(KDevelop::DeclarationPointer declaration, KDevelop::TopDUContextPointer topContext,
-//                                   const QString& /* htmlPrefix */, const QString& /* htmlSuffix */, KDevelop::AbstractNavigationWidget::DisplayHints hints)
+//                                   KDevelop::AbstractNavigationWidget::DisplayHints hints)
 //    : KDevelop::AbstractNavigationWidget()
 //{
 //    setDisplayHints(hints);
@@ -32,7 +32,7 @@ namespace Rust {
 //}
 
 //NavigationWidget::NavigationWidget(const IncludeItem &/*includeItem*/, TopDUContextPointer /*topContext*/,
-//                                   const QString &/*htmlPrefix*/, const QString &/*htmlSuffix*/, KDevelop::AbstractNavigationWidget::DisplayHints hints)
+//                                   KDevelop::AbstractNavigationWidget::DisplayHints hints)
 //    : KDevelop::AbstractNavigationWidget()
 //{
 //    setDisplayHints(hints);
